@@ -1,0 +1,26 @@
+---
+title: Visualization, Gerrymandering, and Swing States
+author: ''
+date: '2022-09-14'
+slug: []
+categories: []
+tags: []
+---
+
+Hello world!
+
+Assignments: 1. Visualization customization: 
+a) create a map of Republican/Democrat voteshare margin by state in a year of your choice.
+b) create a map of Republican/Democrat voteshare margin by state and congressional district in 2014.
+c) label each state (e.g. AZ) in your map and 
+d) create a custom ggplot2 theme for your blog
+
+2. Gerrymandering extension. So far, we've been looking at the voteshare margin by party. This means we have been working with the popular vote as opposed to the number of seats won in the House (recall our discussion from Tuesday about the inefficient geographic distribution of Democrats as compared to Republicans that results from gerrymandering --- the drawing of district boundaries to give parties electoral advantages)
+- create a map of seats hare by party for the entire U.S. in a year of your choice
+a) you can find and download the data at...
+b) select "CQ Voting & Elections Collection"
+c) House Elections > Election Type: General > Region: National > Year: [your choice]
+d) Similar to the map you created of voteshare margin by state, your map should contain all 50 states shaded according to the proportion of seats won by Republicans/Democrats. How do seat share and voteshare compare?
+
+3. Swing state map extension.
+Instead of plotting voteshare-margin maps for each year y where the color for a state is colored by the quantity, plot a swing map for each year where each state is colored by the quantity. Which states are/have been battleground states? Which are no longer? 
