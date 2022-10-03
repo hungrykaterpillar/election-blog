@@ -6,7 +6,25 @@
     <description>Recent content on My New Hugo Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 14 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 03 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Blog 4</title>
+      <link>http://example.org/post/2022-10-03-blog-4/</link>
+      <pubDate>Mon, 03 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/post/2022-10-03-blog-4/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Blog 1</title>
+      <link>http://example.org/post/2022-09-30-blog-1/</link>
+      <pubDate>Fri, 30 Sep 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/post/2022-09-30-blog-1/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>Blog Post #1</title>
       <link>http://example.org/post/2022-09-14-blog-post-1/</link>
@@ -22,7 +40,9 @@
       <pubDate>Wed, 14 Sep 2022 00:00:00 +0000</pubDate>
       
       <guid>http://example.org/post/2022-09-14-visualization-gerrymandering-and-swing-states/</guid>
-      <description>Hello world!</description>
+      <description>Hello world!
+Assignments: 1. Visualization customization: a) create a map of Republican/Democrat voteshare margin by state in a year of your choice. b) create a map of Republican/Democrat voteshare margin by state and congressional district in 2014. c) label each state (e.g. AZ) in your map and d) create a custom ggplot2 theme for your blog
+Gerrymandering extension. So far, we’ve been looking at the voteshare margin by party. This means we have been working with the popular vote as opposed to the number of seats won in the House (recall our discussion from Tuesday about the inefficient geographic distribution of Democrats as compared to Republicans that results from gerrymandering — the drawing of district boundaries to give parties electoral advantages) create a map of seats hare by party for the entire U.</description>
     </item>
     
   </channel>
