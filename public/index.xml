@@ -13,7 +13,7 @@
       <pubDate>Mon, 03 Oct 2022 00:00:00 +0000</pubDate>
       
       <guid>http://example.org/post/2022-10-03-blog-4/</guid>
-      <description></description>
+      <description># setting working directory # setwd(&amp;quot;~/Desktop/Gov 1347/Lab 4 Data&amp;quot;) # read csv file and create an object, h library(readr) rs &amp;lt;- read_csv(&amp;quot;data/2018_ratings_share_Rev.csv&amp;quot;) ## Rows: 435 Columns: 10 ## ── Column specification ──────────────────────────────────────────────────────── ## Delimiter: &amp;quot;,&amp;quot; ## chr (4): STATENAME, cpr, inside_elections, crystal_ball ## dbl (6): ID, DISTRICT, cpr_num, inside_elections_num, crystal_ball_num, avg ## ## ℹ Use `spec()` to retrieve the full column specification for this data. ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</description>
     </item>
     
     <item>
