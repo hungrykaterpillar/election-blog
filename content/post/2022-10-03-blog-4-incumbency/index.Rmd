@@ -1,15 +1,12 @@
 ---
-title: Blog 4
-author: Kate Lim-Shim
+title: Blog 4 - Incumbency
+author: ''
 date: '2022-10-03'
 slug: []
 categories: []
 tags: []
 ---
 ```{r setup, include = FALSE}
-# setting working directory
-# setwd("~/Desktop/Gov 1347/Lab 4 Data")
-
 # read csv file and create an object, h
 library(readr)
 rs <- read_csv("data/2018_ratings_share_Rev.csv")
@@ -26,7 +23,7 @@ library(sf)
 library(usmap)
 ```
 
-```{r setup, include = FALSE}
+```{r include = FALSE}
 D_2018 <- h %>%
   filter(raceYear == 2018) %>%
   select(raceYear, State, district_num, district_id, RepVotesMajorPercent, DemVotesMajorPercent) %>%
@@ -35,7 +32,7 @@ D_2018 <- h %>%
   rename(DISTRICT = district_num, STATENAME = State)
 ```
 
-```{r setup, include = FALSE}
+```{r include = FALSE}
 D_2018_RS <- rs %>%
   select(STATENAME, DISTRICT, cpr_num, inside_elections_num, crystal_ball_num, avg) %>%
   group_by(DISTRICT, STATENAME) %>%
@@ -50,7 +47,7 @@ D_2018_R_com <- D_2018_Com %>%
   rename(DISTRICT = DISTRICT, STATENAME = STATENAME)
 ```
 
-```{r setup, include = FALSE}
+```{r include = FALSE}
 # load geographic data
 get_congress_map <- function(cong=114) {
   tmp_file <- tempfile()
@@ -76,7 +73,7 @@ districts_simp_RS <- rmapshaper::ms_simplify(cd114RS, keep = 0.01)
 districts_simp_RS_C <- rmapshaper::ms_simplify(cd114RSC, keep = 0.01)
 ```
 
-```{r}
+```{r, echo = FALSE}
 # Map(1)
 ggplot() +
   geom_sf(data=districts_simp,aes(fill= D_votemargin_cd), 
@@ -93,7 +90,7 @@ ggplot() +
 ```
 This first map visualizes actual voteshare at the district level in 2018, based on the Democrat vote margin percentage. The map holds many districts that are blue and those that lean towards blue. It means that there is a larger voteshare for Democrats (which is in their favor) at the district level. 
 
-```{r}
+```{r, echo = FALSE}
 # Map(2)
 ggplot() +
   geom_sf(data=districts_simp_RS,aes(fill= cpr_num), 
@@ -114,7 +111,7 @@ Overall, the predictions are more extreme in both directions (in that there are 
 
 Recent elections have only been stronger in support that polling may not be the most accurate tool in election forecasting. In his 2021 study "Failure and Success in Political Polling and Election Forecasting", Andrew Gelman explains that the polls in both recent presidential elections with both Clinton and Biden are examples of the overstatement of Democratic strength, a pattern also seen in recent congressional elections. Through Gelman's experience studying public opinion, he attributes the large proportion of swing in polls to a type of polling bias called "differential nonresponse", in which supporters of candidates are more vocal in surveys when their candidate does well. This phenomenon, accompanied by high correlations between each party's share of support in each poll and the percentage of partisans among respondents, only highlights the growing variable of partisanship. Gelman finds that there is a historical overestimate of Democrat performance due to factors such as this differential nonresponse and differential turnout. However, the 2018 elections were a place for polls to redeem their quality. 
 
-```{r}
+```{r, echo = FALSE}
 # Map(3)
 ggplot() +
   geom_sf(data=districts_simp_RS_C,aes(fill= Accuracy), 
@@ -131,7 +128,7 @@ ggplot() +
 ```
 The third map shows exactly this result, with many polls yielding a difference of 0 in accuracy between the actual voteshare and the expert predictions. This meant that the 2018 predictions held consistent accuracy and if there were differences between the first two maps, they were small. The NYT article "What the Polls Got Right This Year, and Where They Went Wrong" found that while the 2018 expert predictions were a significant increase in accuracy compared to the 2016 elections, the polls underestimated Democrats in several states where they also underestimated Democrats in 2016 like California, New York, and Nevada. "Our polls did not overestimate Democrats in the less educated states and districts of the East, where one might expect the phenomenon to show up, though they did underestimate Democrats in California and the Southwest."  The 2018 expert predictions yielded many precise results. While there was error, it was small and mostly negative, underestimating Democrats’ performance and overestimating Republicans’. Examples can be found in Minnesota’s 7th district, which underestimated Republicans and Nevada’s 4th congressional district, which underestimated the Democrats. This type of error, which was also found in Florida, was to be expected, especially looking at the patterns from previous years. While recent polls from 2016 and 2020 give more and more reason to distrust polls, 2018 was a good year for expert accuracy and optimizing probabilistic forecasting tools to understand how the American public feels about upcoming elections. 
 
-```{r}
+```{r, echo = FALSE}
 library(readr)
 EE_data <- read_csv("data/Election_Economy_R1.csv")
 
@@ -151,7 +148,7 @@ lm_econ_D4 <- lm(D_seats ~ D_majorvote_pct_lag+GDP_Growth_Pct+US_CPI+Pres_R, dat
 summary(lm_econ_D4)
 ```
 
-```{r}
+```{r, echo = FALSE}
 ##lm_incumb_D1 <- lm(DemVotes ~ incumbent_party+open_seat, data = HVS_data)
 
 # GDP
@@ -172,7 +169,7 @@ sqrt(mse_m1)
 summary(lm_econ1)$r.squared
 ```
 
-```{r}
+```{r, echo = FALSE}
 lm_econ2 <- lm(H_incumbent_party_majorvote_pct ~ US_Unemployment_Rate,
 data = EE_data) 
 
@@ -185,7 +182,7 @@ points(EE_data$year, predict(lm_econ2, EE_data))
 ```
 
 
-```{r}
+```{r, echo = FALSE}
 # Unemployment Rate
 mse_m2 <- mean((lm_econ2$model$H_incumbent_party_majorvote_pct - lm_econ2$fitted.values)^2)
 
@@ -194,7 +191,7 @@ sqrt(mse_m2)
 summary(lm_econ2)$r.squared
 ```
 
-```{r}
+```{r, echo = FALSE}
 lm_econ3 <- lm(H_incumbent_party_majorvote_pct ~ US_CPI,
 data = EE_data) 
 
@@ -207,7 +204,7 @@ main="true Y (line), predicted Y (dot) for each year")
 points(EE_data$year, predict(lm_econ3, EE_data))
 ```
 
-```{r}
+```{r, echo = FALSE}
 # CPI
 mse_m3 <- mean((lm_econ3$model$H_incumbent_party_majorvote_pct - lm_econ3$fitted.values)^2)
 
