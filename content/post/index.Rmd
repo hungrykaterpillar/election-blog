@@ -1,0 +1,175 @@
+---
+title: Ground Game
+author: Kate Lim-Shim
+date: '2022-10-18'
+slug: []
+categories: []
+tags: []
+---
+
+
+```{r, include = FALSE}
+#setwd("~/Documents/01-Research/R/Harvard")
+# read csv file and create an object, h
+library(readr)
+Exp_Pred <- read_csv("Expert_Prediction_cleaned.csv")
+Ads_Cost <- read_csv("Ads_Cost_2012_2018.csv")
+CVAP <- read_csv("cvap_district_2012-2020_clean.csv")
+Vote_Inc <- read_csv("incumb_dist_1948-2020 (3).csv")
+```
+
+```{r, include = FALSE}
+#options(repos = list(CRAN="http://cran.rstudio.com/"))
+
+#installing required packages
+install.packages("tidyverse")
+#install.packages("dplyr", repos = "http://cran.us.r-project.org") 
+#install.packages('plyr', repos = "http://cran.us.r-project.org")
+
+# loading required packages
+library(tidyverse)
+```
+
+```{r, include = FALSE}
+library(dplyr)
+
+Exp_Pred_2012_2020 <- Exp_Pred %>%
+  select(year, state, district_num, avg_rating, Close_E_D, LLS_D, LLS_R, St_AVG_R) %>%
+  group_by(year, state, district_num) %>%
+  rename(DISTRICT = district_num, STATENAME = state)
+
+Ads_Cost_2012_2018 <- Ads_Cost %>%
+  select(st_cd_fips, STATENAME, DISTRICT, year, est_cost_sum) %>%
+  group_by(year, STATENAME, DISTRICT) %>%
+  rename(DISTRICT = DISTRICT, STATENAME = STATENAME)
+
+CVAP_2012_2020 <- CVAP %>%
+  select(cd, state, cvap, year) %>%
+  group_by(year, state, cd) %>%
+  rename(DISTRICT = cd, STATENAME = state)
+
+Vote_Inc_1948_2020 <- Vote_Inc %>%
+  select(year, state, district_num, RepVotes, DemVotes,RepVotesMajorPercent, DemVotesMajorPercent, Incumbent_R, Incumbent_D, Open_seat) %>%
+  group_by(year, state, district_num) %>%
+  rename(DISTRICT = district_num, STATENAME = state)
+```
+
+```{r, include = FALSE}
+ExpP_LJ_CVAP_2012_2020 <- Exp_Pred_2012_2020 %>% left_join(CVAP_2012_2020, by=c("year", "DISTRICT", "STATENAME"))
+
+Final_Dataset_2012_2020 <- ExpP_LJ_CVAP_2012_2020 %>% left_join(Vote_Inc_1948_2020, by=c("year", "DISTRICT", "STATENAME")) 
+
+Final_2012_2020_D <- Final_Dataset_2012_2020 %>%
+  select(year, STATENAME, DISTRICT, avg_rating, Close_E_D, LLS_R, LLS_D, St_AVG_R, cvap, RepVotes, DemVotes, RepVotesMajorPercent, DemVotesMajorPercent, Incumbent_R, Incumbent_D, Open_seat) %>%
+  mutate(voterTR = ((RepVotes)+(DemVotes))/(cvap)) %>%
+  rename(DISTRICT = DISTRICT, STATENAME = STATENAME)
+
+## Exp_LJ_Ads_2012_2018 <- Exp_Pred_2012_2020 %>% left_join(Ads_Cost_2012_2018, by=c("year", "DISTRICT", "STATENAME"))
+```
+
+```{r, include = FALSE}
+############
+Final_2012_2020_DF <- read.csv("Final_2012_2020_DF.csv")
+Final_2012_2018_DF <- Final_2012_2020_DF %>% left_join(Ads_Cost_2012_2018, by=c("year", "DISTRICT", "STATENAME"))
+```
+
+```{r, echo = FALSE}
+##Incumbent_R
+###best = M1
+lm_vTR_M1 <- lm (voterTR~Close_E_D+Incumbent_R+MidtermE_D+Open_seat, data=Final_2012_2020_DF)
+summary(lm_vTR_M1)
+#### Interpretation:  XXXXXXX
+
+#lm_vTR_M2 <- lm (voterTR~Close_E_D+Incumbent_R+LLS_R+MidtermE_D, data=Final_2012_2020_DF)
+#summary(lm_vTR_M2)
+
+#lm_vTR_M3 <- lm (voterTR~Close_E_D+Incumbent_R+LLS_D+MidtermE_D, data=Final_2012_2020_DF)
+#summary(lm_vTR_M3)
+```
+In the context of voter turnout, everything is significant at 5% except for the open_seat variable. If it is a close election (based on our definition of 3 or less on the Likert Scale), voter turnout rate increased by 3.26%. For districts where the candidate is Incumbent republican, voter turnout increased by 3.46%, and where the elections were midterms, voter turnout decreased by 13.13%. Overall, based on the adjusted r squared, 30.38% of the variation was explained by our model. Based on the f-statistic, which is significant at the 0.1% level, all the variables of close election, the Repubican incumbent, and open seat variable. 
+
+```{r, echo = FALSE}
+##Incumbent_D
+###best = M4
+lm_vTR_M4 <- lm (voterTR~Close_E_D+Incumbent_D+MidtermE_D+Open_seat, data=Final_2012_2020_DF)
+summary(lm_vTR_M4)
+#### Interpretation:  XXXXXXX
+
+#lm_vTR_M5 <- lm (voterTR~Close_E_D+Incumbent_D+LLS_R+MidtermE_D, data=Final_2012_2020_DF)
+#summary(lm_vTR_M5)
+
+#lm_vTR_M6 <- lm (voterTR~Close_E_D+Incumbent_D+LLS_D+MidtermE_D, data=Final_2012_2020_DF)
+#summary(lm_vTR_M6)
+
+
+####### No Incumbent Var
+#lm_vTR_M7 <- lm (voterTR~Close_E_D+MidtermE_D, data=Final_2012_2020_DF)
+#summary(lm_vTR_M7)
+
+#lm_vTR_M8 <- lm (voterTR~Close_E_D+LLS_R+MidtermE_D, data=Final_2012_2020_DF)
+#summary(lm_vTR_M8)
+
+#lm_vTR_M9 <- lm (voterTR~Close_E_D+LLS_D+MidtermE_D, data=Final_2012_2020_DF)
+#summary(lm_vTR_M9)
+
+
+##Incumbent_R with Ads Cost
+#lm_vTR_M10 <- lm (voterTR~Close_E_D+Incumbent_R+MidtermE_D+est_cost_sum+Open_seat, data=Final_2012_2018_DF)
+#summary(lm_vTR_M10)
+
+#lm_vTR_M11 <- lm (voterTR~Incumbent_R+LLS_R+MidtermE_D+est_cost_sum, data=Final_2012_2018_DF)
+#summary(lm_vTR_M11)
+
+#lm_vTR_M12 <- lm (voterTR~Incumbent_R+LLS_D+MidtermE_D+est_cost_sum, data=Final_2012_2018_DF)
+#summary(lm_vTR_M12)
+```
+Do expert predictions predict turnout? 
+Expert predictions (in whether or not the election is close or not here (dummy variable based on the Likert scale with anything greater than 3 and less than 5, 1 being the highest in support for Democrat and 5 for Republican) are significant at the 5% level. When the rating is in between lean democrat and lean republican, than close election actually had a positive impact on voter turnout rate by 3.26%.When a candidate was an incumbent Democrat, the voter turnout rate seems to decrease by 3.46%. When there is a midterm election, the voter turnout decreases by 13.13% and if the election is open seat, the turnout decreases by 3.81%. 
+
+The benefit of this model over the one below is that the open seat variable (whether or not there is currently someone in the position) is significant at the 1% level. The model here proved that the expert ratings about the election results was a good indicator in predicting the voter turnout rate because in a close election/more heated campaign, the model predicted a higher turnout rate. 
+
+
+```{r, echo = FALSE}
+##Incumbent_D with Ads Cost
+###best = M13
+
+lm_vTR_M13 <- lm (voterTR~Close_E_D+Incumbent_D+MidtermE_D+est_cost_sum+Open_seat, data=Final_2012_2018_DF)
+summary(lm_vTR_M13)
+######## intepretation: XXXXXXXX
+
+#lm_vTR_M14 <- lm (voterTR~Close_E_D+Incumbent_D+LLS_R+MidtermE_D+est_cost_sum, data=Final_2012_2018_DF)
+#summary(lm_vTR_M14)
+
+#lm_vTR_M15 <- lm (voterTR~Close_E_D+Incumbent_D+LLS_D+MidtermE_D+est_cost_sum, data=Final_2012_2018_DF)
+#summary(lm_vTR_M15)
+
+
+####### No Incumbent Var
+#lm_vTR_M16 <- lm (voterTR~Close_E_D+MidtermE_D+est_cost_sum, data=Final_2012_2018_DF)
+#summary(lm_vTR_M16)
+
+#lm_vTR_M17 <- lm (voterTR~Close_E_D+LLS_R+MidtermE_D+est_cost_sum, data=Final_2012_2018_DF)
+#summary(lm_vTR_M17)
+
+#lm_vTR_M18 <- lm (voterTR~Close_E_D+LLS_D+MidtermE_D+est_cost_sum, data=Final_2012_2018_DF)
+#summary(lm_vTR_M18)
+```
+Everything is the same as the model above, except the inclusion of one more variable, which is estimated cost for advertisement. The adjusted r squared slightly dropped to 22%,, but ad spends do help predict turnout here and are significat at the 5% level: every $10 million spent on advertisements. If the election is close, voter turnout increases by 3.15%, if the incumbent is a Democrat, turnout rate decreases by 8.44%, and if it is a midterm election, the turnout decreases by 7.63%. There is a hidden meaning here that actual voters who are easily motivated to turn out are probably Democrats. They turn out less when the incumbent is a Democrat, as shown by the model.
+
+```{r, echo = FALSE}
+EE_data_R1 <- read.csv("Election_Economy_R1_copy.csv")
+Final_2012_2018_DF_ME_R1 <- EE_data_R1 %>% left_join(Final_2012_2018_DF, by=c("year"))
+Final_2012_2020_DF_ME_R1 <- EE_data_R1 %>% left_join(Final_2012_2020_DF, by=c("year"))
+
+##### interpretation: XXXXXX
+##==================================================
+lm_DVsh_M1 <- lm (DemVotesMajorPercent ~ Close_E_D+LLS_D+Pres_D+GDP_Growth_Pct+US_CPI+US_Unemployment.Rate, data=Final_2012_2020_DF_ME_R1)
+summary(lm_DVsh_M1)
+##### interpretation: XXXXXX
+##==================================================
+lm_RVsh_M1 <- lm (RepVotesMajorPercent ~ Close_E_D+LLS_R+Pres_R+GDP_Growth_Pct+US_CPI+US_Unemployment.Rate, data=Final_2012_2020_DF_ME_R1)
+summary(lm_RVsh_M1)
+##### interpretation: XXXXXX
+##==================================================
+```
+Here, there is an inclusion of economic variables of GDP Growth Percentage, Consumer Price Index, and the U.S. Unemployment Rate which are based on national index, not in district or state. This model is an improvement from last week as 69.3% of both the Democrat and Republican majority vote share are explained by the variables of the close election dummy variable, the lean/likely/safety voters for each party, the President being either Democrat or Republican, and the economic variables all significant at the 0.1% level. The economic indicators are interesting because the increase in GDP Growth Percentage and Unemployment rate help increase Democrats' vote share, while the CPI hurts the Democrats. 
