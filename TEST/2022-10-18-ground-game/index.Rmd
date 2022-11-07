@@ -8,7 +8,7 @@ tags: []
 ---
 
 
-```{r, include = FALSE}
+```{r setup, include = FALSE}
 #setwd("~/Documents/01-Research/R/Harvard")
 # read csv file and create an object, h
 library(readr)
@@ -23,7 +23,7 @@ Vote_Inc <- read_csv("incumb_dist_1948-2020 (3).csv")
 
 #installing required packages
 install.packages("tidyverse")
-#install.packages("dplyr", repos = "http://cran.us.r-project.org") 
+install.packages("dplyr", repos = "http://cran.us.r-project.org") 
 #install.packages('plyr', repos = "http://cran.us.r-project.org")
 
 # loading required packages

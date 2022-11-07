@@ -6,7 +6,16 @@
     <description>Recent content on My New Hugo Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 12 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 07 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Final Election Prediction</title>
+      <link>http://example.org/post/2022-11-07-final-election-prediction/</link>
+      <pubDate>Mon, 07 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/post/2022-11-07-final-election-prediction/</guid>
+      <description>## ## Call: ## lm(formula = DemVotesMajorPercent ~ Close_E_D + LLS_D + Pres_D + ## US_CPI + US_UEP_Rate + female + X20_29 + white, data = final_data_1106) ## ## Residuals: ## Min 1Q Median 3Q Max ## -15.623 -2.110 0.113 1.862 19.192 ## ## Coefficients: ## Estimate Std. Error t value Pr(&amp;gt;|t|) ## (Intercept) 27.32918 10.97670 2.490 0.01312 * ## Close_E_D 11.89708 0.42671 27.881 &amp;lt; 2e-16 *** ## LLS_D 5.</description>
+    </item>
+    
     <item>
       <title>Air War</title>
       <link>http://example.org/post/2022-10-12-air-war/</link>

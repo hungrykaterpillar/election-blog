@@ -1,0 +1,218 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+library (Metrics)
+library (caret)
+library (ggplot2)
+
+install.packages("magrittr") # package installations are only needed the first time you use it
+install.packages("dplyr")    # alternative installation of the %>%
+library(magrittr) # needs to be run every time you start R and want to use %>%
+library(dplyr)    # alternatively, this also loads %>%
+
+final_data_1106 <- read.csv("final_data_1106.csv")
+summary(final_data_1106)
+
+#final_data_1106_no_2018 <- read.csv("final_data_1106_no_2018.csv")
+#summary(final_data_1106_no_2018)
+```
+
+```{r}
+#Run Multivariate Regression Model (prediction model_all data)
+lm_DVsh_US <- lm (DemVotesMajorPercent ~ Close_E_D+LLS_D+Pres_D+US_CPI+US_UEP_Rate+female+X20_29+white, data=final_data_1106)
+summary(lm_DVsh_US)
+#### Note from ABBA, Jaewon Lim
+### After you run above, insert the answers (1), (2), (3), and (4) HERE.
+
+
+
+# 2022 Data for Prediction : US Average for 2022 House Representative Election
+newdata_2022 <- data.frame(Close_E_D = 1, LLS_D = 0, Pres_D = 1, GDP_Growth_Pct = 5.68, US_CPI = 296.808, US_UEP_Rate = 3.791938312, female = 0.509747974, X20_29 = 0.1742278, white = 0.609723287)
+# Predict Democrat Vote Share (US) for 2022 House RepresentativeElection
+lm_DVsh_US %>% predict(newdata_2022)
+#### Note from ABBA, Jaewon Lim
+###  After you run above, insert the answer (5) (Prediction part) HERE 
+
+# 2022 Data for Prediction : NV-3 for 2022 House Representative Election
+newdata_2022_NV3 <- data.frame(Close_E_D = 1, LLS_D = 0, Pres_D = 1, GDP_Growth_Pct = 5.68, US_CPI = 296.808, US_UEP_Rate = 3.791938312, female = 0.51229666, X20_29 = 0.153353865, white = 0.535751482)
+# Predict Democrat Vote Share (NV-3) for 2022 House RepresentativeElection
+lm_DVsh_US %>% predict(newdata_2022_NV3)
+
+#### Note from ABBA, Jaewon Lim
+###  After you run above, insert the answer (5) (Prediction part) HERE 
+```
+
+```{r}
+# In-sample fit evaluation
+## In-sample validation: R-square of the prediction model
+summary(lm_DVsh_US)$r.squared
+
+## In-sample validation: in-sample error plots
+### First Plot (line & dots)
+plot(final_data_1106$ID, final_data_1106$DemVotesMajorPercent,
+     type="l",
+     main="true Y (line), predicted Y (dot) for each district of each election")
+points(final_data_1106$ID, predict(lm_DVsh_US, final_data_1106))
+### Second plot (Histogram)
+hist(lm_DVsh_US$model$DemVotesMajorPercent - lm_DVsh_US$fitted.values,
+     main="histogram of true Y - predicted Y")
+
+## In-sample validation: RMSE
+mse_DVsh <- mean((lm_DVsh_US$model$DemVotesMajorPercent - lm_DVsh_US$fitted.values)^2)
+sqrt(mse_DVsh)
+rmse(lm_DVsh_US$model$DemVotesMajorPercent, lm_DVsh_US$fitted.values)
+
+#### Note from ABBA, Jaewon Lim
+###  After you run above, insert the answer (5) (In-sample model validation) HERE 
+```
+
+```{r}
+# Out-of-sample validation (out-of-sample testing)
+#newdata_2018 <- data.frame(Close_E_D = 1, LLS_D = 0, Pres_D = 0, GDP_Growth_Pct = 2.9965, US_CPI = 251.1, US_UEP_Rate = 3.896220085, female = 0.513114776, X20_29 = 0.17744668, white = 	0.631301179)
+# Predict Democrat Vote Share (US) of 2018 House Representative Election for in-sample validation
+#DVsh_US_2018_pred <-lm_DVsh_US %>% predict(newdata_2018)
+
+
+
+# 2018 Data for out-of-sample validation: US Average for 2018 House Representative Election
+##Run Multivariate Regression Model (prediction model_with no 2018)
+lm_DVsh_US_no_2018 <- lm (DemVotesMajorPercent ~ Close_E_D+LLS_D+Pres_D+US_CPI+US_UEP_Rate+female+X20_29+white, data=final_data_1106[final_data_1106$year !=2018,])
+summary(lm_DVsh_US_no_2018)
+##R-squared value of prediction model with no 2018 observations
+summary(lm_DVsh_US_no_2018)$r.squared
+## Predict Democrat Vote Share of 2018 House Representative Election using out-of-sample validation model 
+lm_DVsh_US_2018_pred <- predict(lm_DVsh_US_no_2018,
+                                final_data_1106[final_data_1106$year == 2018,])
+lm_DVsh_US_2018_pred
+## Get the true Democrat Vote Share of 2018 House Representative Election 
+lm_DVsh_US_2018_true <- final_data_1106$DemVotesMajorPercent[final_data_1106$year == 2018]
+lm_DVsh_US_2018_true
+## Calculate the difference (error) between predicted and true Democrat Vote Shares of 2018 House Representative Election
+error_2018 <- lm_DVsh_US_2018_pred - lm_DVsh_US_2018_true  
+error_2018
+
+mse_DVsh_2018 <- mean((error_2018)^2)
+mse_DVsh_2018
+sqrt(mse_DVsh_2018)
+rmse(lm_DVsh_US_2018_pred, lm_DVsh_US_2018_true)
+
+#ids_outsamp <- sample(final_data_1106$ID, 50)
+#ids_outsamp
+#mod <- lm(DemVotesMajorPercent ~ Close_E_D+LLS_D+Pres_D+US_CPI+US_UEP_Rate+female+X20_29+white, 
+#          final_data_1106[!(final_data_1106$ID %in% ids_outsamp),])
+#outsamp_pred <- predict(mod, newdata = final_data_1106[final_data_1106$ID %in% ids_outsamp,])
+#mean(outsamp_pred - final_data_1106$DemVotesMajorPercent[final_data_1106$ID %in% ids_outsamp])
+
+outsamp_errors1 <- sapply(1:1000, function(i){
+      ids_outsamp <- sample(final_data_1106$ID, 60)
+    outsamp_mod <- lm(DemVotesMajorPercent ~ Close_E_D+LLS_D+Pres_D+US_CPI+US_UEP_Rate+female+X20_29+white, final_data_1106[!(final_data_1106$ID %in% ids_outsamp),])
+    outsamp_pred <- predict(outsamp_mod, newdata = final_data_1106[final_data_1106$ID %in% ids_outsamp,])
+    outsamp_true <- final_data_1106$DemVotesMajorPercent[final_data_1106$ID %in% ids_outsamp]
+    mean(outsamp_pred - outsamp_true)
+})
+mean(abs(outsamp_errors1))
+hist(outsamp_errors1,
+     main="Mean out-of-sample residual (1000 runs of cross-validation)")
+#### Note from ABBA, Jaewon Lim
+### After you run above, insert the answers (5) (Out-of-sample Model Validation) HERE 
+```
+
+```{r}
+#newdata_2018_no_2018 <- data.frame(Close_E_D = 1, LLS_D = 0, Pres_D = 0, GDP_Growth_Pct = 2.9965, US_CPI = 251.1, US_UEP_Rate = 3.896220085, female = 0.513114776, X20_29 = 0.17744668, white = 	0.631301179)
+# Predict Democrat Vote Share (US) for 2018 House Representative Election for out-of-sample validation
+#DVsh_US_no_2018_pred <- lm_DVsh_US_no_2018 %>% predict(newdata_2018_no_2018)
+#DVsh_US_2018_true <- final_data_1106 %>%
+#  filter(year == 2018, X == 280) %>%
+# select(D_majorvote_pct)
+
+#DVsh_US_no_2018_pred
+#DVsh_US_2018_true
+
+
+# Model validation: RMSE and MAE for out-of-sample validation
+#rmse(lm_DVsh_US_no_2018$model$DemVotesMajorPercent, lm_DVsh_US_no_2018$fitted.values)
+#mae(lm_DVsh_US_no_2018$model$DemVotesMajorPercent, lm_DVsh_US_no_2018$fitted.values)
+
+#DVsh_US_no_2018_pred <- predict(lm_DVsh_US_no_2018, final_data_1106[final_data_1106$year == 2018,])
+#DVsh_US_no_2018_pred
+
+#DVsh_US_2018_true <- final_data_1106$DemVotesMajorPercent
+#DVsh_US_no_2018_pred - DVsh_US_2018_true
+
+# Model validation: RMSE and MAE for in-sample validation
+#rmse(lm_DVsh_US_no_2018$model$DemVotesMajorPercent, lm_DVsh_US_no_2018$fitted.values)
+#mae(lm_DVsh_US_no_2018$model$DemVotesMajorPercent, lm_DVsh_US_no_2018$fitted.values)
+```
+
+
+```{r}
+# Prediction Interval for 2018 and 2022 predictions
+pi_2018 = predict(lm_DVsh_US, newdata_2018, interval="predict", level =.95)
+pi_2018
+
+pi_2022 = predict(lm_DVsh_US, newdata_2022, interval="predict", level =.95)
+pi_2022
+
+pi_2022_NV3 = predict(lm_DVsh_US, newdata_2022_NV3, interval="predict", level =.95)
+pi_2022_NV3
+#### Note from ABBA, Jaewon Lim
+### After you run above, insert the answers (6) HERE
+```
+
+```{r}
+###### Draw plot using Base R
+plot(predict(lm_DVsh_US),                                
+     final_data_1106$DemVotesMajorPercent, main="National Democrat Popular Vote Share Model",
+     xlab = "Predicted Values",
+     ylab = "Observed Values")
+# Add straight line
+abline(a = 0,                                        
+       b = 1,
+       col = "red",
+       lwd = 2)
+#### Note from ABBA, Jaewon Lim
+### After you run above, insert the answers (7)-part 1 HERE
+```
+
+```{r}
+#plotting (graphs)
+plot_X1<-ggplot(final_data_1106,aes(x = Close_E_D, y = DemVotesMajorPercent)) + geom_point() +geom_smooth(method = "lm")
+plot_X1
+
+plot_X2<-ggplot(final_data_1106,aes(x = LLS_D, y = DemVotesMajorPercent)) + geom_point() +geom_smooth(method = "lm")
+plot_X2
+
+plot_X3<-ggplot(final_data_1106,aes(x = Pres_D, y = DemVotesMajorPercent)) + geom_point() +geom_smooth(method = "lm")
+plot_X3
+
+plot_X4<-ggplot(final_data_1106,aes(x = US_CPI, y = DemVotesMajorPercent)) + geom_point() +geom_smooth(method = "lm")
+plot_X4
+
+plot_X5<-ggplot(final_data_1106,aes(x = US_UEP_Rate, y = DemVotesMajorPercent)) + geom_point() +geom_smooth(method = "lm")
+plot_X5
+
+plot_X6<-ggplot(final_data_1106,aes(x = female, y = DemVotesMajorPercent)) + geom_point() +geom_smooth(method = "lm")
+plot_X6
+
+plot_X7<-ggplot(final_data_1106,aes(x = X20_29, y = DemVotesMajorPercent)) + geom_point() +geom_smooth(method = "lm")
+plot_X7
+
+plot_X8<-ggplot(final_data_1106,aes(x = white, y = DemVotesMajorPercent)) + geom_point() +geom_smooth(method = "lm")
+plot_X8
+#### Note from ABBA, Jaewon Lim
+### After you run above, insert the answers (7)-part 2 HERE
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
