@@ -1,0 +1,185 @@
+---
+title: 'Introduction Part 2: Illinois'
+author: 'Kate Lim-Shim'
+date: '2022-09-14'
+slug: []
+categories: []
+tags: []
+---
+```{r, include = FALSE}
+##read file
+library(readr)
+h <- read_csv("data/house party vote share by district 1948-2020 copy.csv")
+
+# load usmap
+# installing required packages
+#install.packages("tidyverse")
+#install.packages("ggplot2")
+#install.packages("sf")
+
+# loading required packages
+library(tidyverse)
+library(ggplot2)
+theme_set(theme_minimal())
+library(sf)
+library(usmap)
+
+# required packages
+require(tidyverse)
+require(ggplot2)
+require(sf)
+```
+
+
+```{r, include = FALSE}
+R_2014 <- h %>%
+filter(raceYear == 2014) %>%
+select(raceYear, State, district_num, district_id, RepVotes, DemVotes) %>%
+group_by(district_num, State) %>%
+##summarise(Rep_votes_pct = RepVotesMajorPercent, Dem_votes_pct = DemVotesMajorPercent) %>% 
+  
+# mutate Rep vote margin by state %>%
+mutate(R_votemargin_st = (sum(RepVotes))/
+sum(RepVotes + DemVotes),
+D_votemargin_st = (sum(DemVotes))/
+sum(RepVotes + DemVotes)) %>%
+  
+## (should I create two new variables showing the vote margin by party and summarize by them??) ##
+rename(DISTRICT = district_num, STATENAME = State)
+
+states_map <- usmap::us_map()
+unique(states_map$abbr)
+```
+
+```{r, include = FALSE}
+#----------------------------------------------------------------------
+# load geographic data
+get_congress_map <- function(cong=114) {
+  tmp_file <- tempfile()
+  tmp_dir <- tempdir()
+  zp <- sprintf("https://cdmaps.polisci.ucla.edu/shp/districts114.zip",cong)
+  download.file(zp, tmp_file)
+  unzip(zipfile = tmp_file, exdir = tmp_dir)
+  fpath <- paste(tmp_dir, sprintf("districtShapes/districts114.shp",cong), sep = "/")
+  st_read(fpath)
+}
+
+# load 114th congress
+cd114 <- get_congress_map(114)
+
+# divide by district
+cd114$DISTRICT <- as.numeric(cd114$DISTRICT)
+cd114 <- cd114 %>% left_join(R_2014, by=c("DISTRICT", "STATENAME"))
+
+districts_simp <- rmapshaper::ms_simplify(cd114, keep = 0.01)
+```
+
+```{r, include = FALSE}
+#----------------------------------------------------------------------
+# select specific state
+cd114_IL <- cd114 %>%
+  filter(STATENAME=="Illinois") %>%
+  mutate(DISTRICT = as.character(DISTRICT))%>%
+  select(DISTRICT)
+```
+
+```{r, include = FALSE}
+# filter for 2000 - 2020 election for Illinois
+R_IL_2000_2020 <- h %>%
+  filter(raceYear %in% c(2000, 2002, 2004, 2006, 2008, 2010, 2012, 2014, 2016, 2018, 2020), State == "Illinois") %>%
+  select(raceYear, State, district_num, district_id, RepVotes, DemVotes) %>%
+  # summarize party vote share by state
+  group_by(State, district_num, raceYear) %>%
+  # mutate Rep vote margin by state %>%
+  mutate(R_votemargin_st = (sum(RepVotes))/
+           sum(RepVotes + DemVotes),
+         D_votemargin_st = (sum(DemVotes))/
+           sum(RepVotes + DemVotes)) %>%
+  summarise(RvotemarginST = R_votemargin_st, DvotemarginST = D_votemargin_st) %>%
+  rename(DISTRICT = district_num, STATE = State)
+
+# before joining dfs, check classes of variable to be merged on
+class(R_IL_2000_2020$DISTRICT)
+class(cd114_IL$DISTRICT)
+
+# change class
+cd114_IL$DISTRICT <- as.numeric(cd114_IL$DISTRICT)
+```
+
+```{r, include = FALSE}
+#----------------------------------------------------------------------
+# join election returns with shapefiles
+cd114_IL_J <- cd114_IL %>% left_join(R_IL_2000_2020, by=c("DISTRICT"))
+
+district_simp <- rmapshaper::ms_simplify(cd114_IL_J, keep=0.01)
+
+# make a data frame!
+cd114_IL_J_G <- as.data.frame(cd114_IL_J)
+View(cd114_IL_J_G)
+```
+
+```{r, echo = FALSE}
+#-------------------------------------------------------------------------------
+# time to graph! (Graph Type (1-GOP))
+GOP <- ggplot(cd114_IL_J_G, aes(x = raceYear, y = RvotemarginST)) +
+    geom_line(color = "grey", alpha = 1.5) + 
+    geom_point(color="red") +
+    labs(x = "Year", y = "GOP Two-Party Vote Share") + 
+    ggtitle("Illinois Congressional District - GOP Vote Swing, 2000-2022") +
+    theme(plot.title=element_text(hjust=0.5))
+  
+theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+
+GOP + facet_wrap(~ DISTRICT, nrow = 3)
+```
+
+```{r, echo = FALSE}
+#-------------------------------------------------------------------------------
+# time to graph! (Graph Type (1-DEM))
+DEM <- ggplot(cd114_IL_J_G, aes(x = raceYear, y = DvotemarginST)) +
+    geom_line(color = "grey", alpha = 1.5) + 
+    geom_point(color="blue") +
+    labs(x = "Year", y = "DEM Two-Party Vote Share") + 
+    ggtitle("Illinois Congressional District - DEM Vote Swing, 2000-2022") +
+    theme(plot.title=element_text(hjust=0.5))
+
+theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+
+DEM + facet_wrap(~ DISTRICT, nrow = 3)
+```
+
+```{r, echo = FALSE}
+#----------------------------------------------------------------------
+# time to graph! (Graph Type (2-GOP))
+cd114_IL_J_G %>%
+  ggplot(aes(raceYear, RvotemarginST))+
+  geom_point(color="red")+
+  geom_smooth(method=lm, color="black")+
+  facet_wrap(~DISTRICT, nrow = 3)+
+  theme_bw()+
+  labs(x = "Year", y = "GOP Two-Party Vote Share") + 
+  ggtitle("Illinois Congressional District - GOP Vote Swing, 2000-2022") +
+  theme(plot.title=element_text(hjust=0.5))
+```
+
+```{r, echo = FALSE}
+#----------------------------------------------------------------------
+# time to graph! (Graph Type (2-DEM))
+cd114_IL_J_G %>%
+  ggplot(aes(raceYear, DvotemarginST))+
+  geom_point(color="blue")+
+  geom_smooth(method=lm, color="black")+
+  facet_wrap(~DISTRICT, nrow = 3)+
+  theme_bw()+
+  labs(x = "Year", y = "DEM Two-Party Vote Share") + 
+  ggtitle("Illinois Congressional District - DEM Vote Swing, 2000-2022") +
+  theme(plot.title=element_text(hjust=0.5))
+```
+
+Questions: Which states/districts vote blue/red in 2014? What does the Illinois vote share margin for the GOP and Democrat parties show about vote swing and the competitiveness of elections? 
+
+In 2014, the states that voted blue were California, Oregon, Washington, with the highest Democrat vote share margin found in Massachusetts. The states that voted red were Wyoming, Oklahoma, Alabama, and Louisiana among other states. In the case of Louisiana, the 3rd and 4th congressional districts had the highest Republican vote share margin. In the 3rd district, there were two Republicans running against one another, another explanation for the high red vote share margin. In the 4th district, there was one Republican candidate and a Libertarian candidate, with the Democrat withdrawing from the election, explaining why the margin was so high for Republicans. The districts that voted blue were California’s 20th district and Texas’s 28th district, among others. The districts that voted red were California’s 4th district, Washington’s 4th district, and Texas’s 11th district, among others. The reason I chose to visualize this map through a state basis and later through congressional districts is because the state basis could show a general pattern of vote share margin, and the individual congressional districts could give more insight into the specific district elections, such as in the example of Louisiana. 
+
+The reason behind the gg plot showing the Illinois GOP versus the Democrat two-party vote share was to show the distribution of vote share within specific districts and compare their patterns. The Illinois vote share margin for the GOP consistently shows that throughout the years of 2000 to 2020, the districts with the highest Democratic or Republican two-party vote share continued to follow the general pattern of high two-party vote shares. The extremities seem to follow the high or low nature of the trend, as shown by district 17 and 18. Even if there was an outlier year that seemed extreme, the vote share would usually fall back into the trend of the plot. The 7th congressional district is an example of a district that has remained consistent in voting Democrat, while the 12th congressional district started to vote more Republican (with an outlier voting heavily blue in 2007). Depending on the district, the competitiveness of elections changes differently. There is a consistent record of vote swing and unpredictability in Illinois’ elections, as shown in the 17th district. 270 to win shows how Illinois’ voting pattern in presidential elections (every 4 years between 2000 to 2020) has increasingly shifted in favor of Democrats, especially in 2008 with President Obama’s candidacy. 
+
+[The New York Times Senate Election Results](https://www.nytimes.com/elections/2014/results/senate) well predicted the states that Republicans/Democrats expected to win easily; however, the states where Republicans/Democrats were expected to win narrowly were not very accurate in comparison to the final results. Based on the wrong predictions from 2014, and in consideration of the current political context, I think there will be less narrow wins and a seat share of 230 seats for Republicans and 240 for Democrats. 

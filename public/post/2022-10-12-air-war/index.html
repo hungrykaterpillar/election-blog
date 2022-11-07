@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+		
+		
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>Air War &middot; My New Hugo Site</title>
+
+		
+		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="/css/fonts.css">
+		
+		<link rel="icon" href="/favicon.ico"/>
+		<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+		
+		<link href="" rel="alternate" type="application/rss+xml" title="My New Hugo Site" />
+
+		<script src="/js/darkmode.js"></script>
+	</head>
+
+    <body>
+        		<nav class="nav">
+			<div class="nav-container">
+				<a href="/">
+					
+						<h2 class="nav-title">My New Hugo Site</h2>
+					
+				</a>
+				<ul>
+    
+    
+</ul>
+			</div>
+		</nav>
+
+        <div id="darkModeToggle" onclick="toggleDarkMode()">
+  &#9680; 
+</div>
+
+        
+
+<main>
+	
+
+
+        <div class="post">
+		<div class="post-info">
+    <span>Written by</span>
+        Kate Lim-Shim
+        <br>
+        <span>on&nbsp;</span><time datetime="2022-10-12 00:00:00 &#43;0000 UTC">October 12, 2022</time>
+</div>
+
+		<h1 class="post-title">Air War</h1>
+<div class="post-line"></div>
+
+		
+
+		
+
+
+<p>##How can advertisements be used to predict a candidate’s performance?
+Reviewing GPR:
+The gross rating point (GRP) as a general measure of the audience size reached by targeted political advertisements during a specific time frame helps to measure the impact of political ads.
+In the Gerber paper, the field experiment evaluating a $2 million campaign in Texas attempts to close the gap between different controlled experiments and the real world. The results, surprisingly, are that 1) TV campaign ads have a large and statistically significant effect on voter preferences and 2) the effects of advertisements dissipate quickly (the generally underestimated issue of decay). The study of Texas was interesting as it focused on a unique race where the incumbent governor was challenged by two independent candidates and an unominated Democrat. Two features, voter ideology and positivity, were used to answer the question of whether or not paid advertising is capable of producing noticeable shifts in voter support. The experimental design was carried out with a matching of demographic and socioeconomic attributes, randomly assigning the member of each media market into an order that showed the start date of the TV campaigns. For each week, the GRPs were deployed in DMAs (Designated Market Areas), separated into 250 GRPs (airing most Perry ads on morning news), 500 GRPs (same as 250 but added entertainment programming), and 1000 GRPs (with peak late night entertainment/news programming). Depending on the purchase, this was used to form the data for the pooled cross-sectional time-series analysis and carrying out the survey of the voter file. And, it was found that the popularity of Perry increased as the ads purchased increased.</p>
+<p>The Huber paper also utilizes GRP to identify the effects of campaign advertising on changes in reported behavior and beliefs. To avoid potential biases and distinguish between field level campaign activity, Huber measured campaign advertising using the Campaign Media Analysis Group’s (CMAG) record of ratings-adjusted broadcasts. The local ratings (quantified through GRPs) would measure the percentage of households viewing the broadcasted show where there was an ad. This only addressed the biases issues while the research design as a whole isolated the effects of advertising from “underlying differences in voter characteristics” and “unmeasured campaign field activity.” The mock of a natural experiment used the NAES individual-level survey measures of expressed preferences and beliefs as dependent variables and was conducted as a rolling cross-section with embedded panels, allowing for a less regular but broader data collection.</p>
+<p>The features of both experiments give me some ideas on approximating advertising effects at both the national and district level. The idea of multiple interviews is helpful as it is possible to compare the initial opinions versus the opinions after repeated campaign ad exposure, allowing us to 1) understand the effects of advertising on changes in opinions and 2) examine the effects of change on candidate preference. And the difference between survey data in advertising as measured in the panel versus the cross-section helps account for the weeks in which opinions may change, helping isolate the effects of advertising volume and tone. In order to most accurately predict voter behavior (and later see how that effects a candidate’s overall performance), the mix of cross-section and panel data would help us gain both a short-term and long-term perspective of the relationship. To isolate the effects of advertising, I would account contextual differences at the district level by including fixed effects for each district, to control for nationwide differences over multiple elections, I would also include indicator variables for each week, as Huber did. If I have more information about the demographic characteristics about the voter population (which vary nationwide and by district), they can be good indicators for predicting election results. We can then use this kind of information about voters such as degree of religious commitment, income, educational background, age, gender, etc to measure advertising effects on interest in the campaign and intention to vote through a combination of the panel and cross-section data.</p>
+<pre><code>## 
+## Call:
+## lm(formula = D_voteshare ~ incumbent_party + open_seat, data = HVS_data)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.42129 -0.10063 -0.01645  0.08237  0.60735 
+## 
+## Coefficients:
+##                 Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)     0.392646   0.001897 207.003   &lt;2e-16 ***
+## incumbent_party 0.334993   0.002748 121.906   &lt;2e-16 ***
+## open_seat       0.107289   0.011133   9.637   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.1714 on 15829 degrees of freedom
+##   (235 observations deleted due to missingness)
+## Multiple R-squared:  0.4846, Adjusted R-squared:  0.4845 
+## F-statistic:  7442 on 2 and 15829 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>##Updated Model: Incumbency
+For this week’s blog, I used incumbency and the open seat dummy variables to predict Democrat voteshare. The Democrat voteshare is a function of the incumbent party (1 if the incumbent is a Democrat, 0 if not) and open seat variables (1 if it is an open seat, 0 if not). If the incumbent party is Democrat, the actual Democrat voteshare increases by about 0.335% while if it is open seat, it increases by 0.107%. The overall performance of the prediction model can be captured by the adjusted R-squared value of 48.45%, which means that only about half of the variation in Democrat vote share can be explained/captured by the specified prediction model utilizing incumbent party and open seat variables. Based on the F-statistic, these two variables are jointly significant in estimating Democrat voteshare, and the model is kind of an improvement from my model last week where two of the three the economic indicators were not significant. On the other hand, the much lower R-squared reduces the predictive power of the Democratic voteshare.</p>
+<pre><code>## 
+## Call:
+## lm(formula = D_voteshare ~ incumbent_party, data = HVS_data)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.39576 -0.10115 -0.01689  0.08259  0.60424 
+## 
+## Coefficients:
+##                 Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)     0.395760   0.001874   211.1   &lt;2e-16 ***
+## incumbent_party 0.331879   0.002737   121.3   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.1719 on 15830 degrees of freedom
+##   (235 observations deleted due to missingness)
+## Multiple R-squared:  0.4816, Adjusted R-squared:  0.4815 
+## F-statistic: 1.471e+04 on 1 and 15830 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = D_voteshare ~ open_seat, data = HVS_data)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.55226 -0.16898 -0.01985  0.14894  0.44774 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  0.552255   0.001911 288.989  &lt; 2e-16 ***
+## open_seat   -0.052320   0.015393  -3.399 0.000678 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.2386 on 15830 degrees of freedom
+##   (235 observations deleted due to missingness)
+## Multiple R-squared:  0.0007293,  Adjusted R-squared:  0.0006661 
+## F-statistic: 11.55 on 1 and 15830 DF,  p-value: 0.0006782</code></pre>
+<p>To look more closely into each variable, I separated them into two different models and looked into Incumbent Party as an isolated independent predictor. It seemed that the open seat variable has extremely weak predictive power, with a nearly non-existent adjusted R-squared of 0.06661% wheras the whether the incumbent was Democrat or not had a higher adjusted R-squared of about 48.15%, being the main contributor to the accuracy of the combined model. Despite the decent adjusted R-squared of the model with incumbent party alone, the fact that Democrat voteshare only increases by 0.335% if the incumbent is a Democrat seems to be a sign that incumbency does not have a guiding hand in who ultimately ends up holding office.</p>
+<p>In <a href="https://www-cambridge-org.ezp-prod1.hul.harvard.edu/core/journals/journal-of-experimental-political-science/article/voters-dont-care-much-about-incumbency/ECFE39E003912F8AF65C2AD14A34BD8C">“Voters Don’t Care Much About Incumbency”</a>, Adam Brown studies the structural advantage enjoyed by incumbent candidates, building upon existing research which has stressed examples of incumbents using the perks of their office to build name recognition, deter strong challengers, and ultimately win more votes. Brown’s experimental research goes against both other researchers’ perspective that voters favor incumbents over regular candidates and the media narratives that frame incumbency as a liability. It seems that voters do not care much about the conditions of the seat a candidate is pursuing.
+Another finding from the study was that structural factors matter more than voter preferences in evaluating the electoral benefits incumbents gain from their status. Based on empirical data, voters may not necessarily attracted by incumbency, rather the effects that result from it.</p>
+
+
+		
+	</div>
+
+	<div class="pagination">
+		<a href="/post/2022-10-03-blog-4-incumbency/" class="left arrow">&#8592;</a>
+
+		<a href="#" class="top">Top</a>
+	</div>
+</main>
+
+
+        		<footer>
+			
+			<span>
+			&copy; <time datetime="2022-11-07 09:24:19.539249 -0500 EST m=&#43;0.129927073">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			</span>
+		</footer>
+
+    </body>
+</html>

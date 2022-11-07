@@ -6,44 +6,43 @@
     <description>Recent content in Posts on My New Hugo Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 03 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 12 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Blog 4 - Incumbency</title>
+      <title>Air War</title>
+      <link>http://example.org/post/2022-10-12-air-war/</link>
+      <pubDate>Wed, 12 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/post/2022-10-12-air-war/</guid>
+      <description>##How can advertisements be used to predict a candidate’s performance? Reviewing GPR: The gross rating point (GRP) as a general measure of the audience size reached by targeted political advertisements during a specific time frame helps to measure the impact of political ads. In the Gerber paper, the field experiment evaluating a $2 million campaign in Texas attempts to close the gap between different controlled experiments and the real world.</description>
+    </item>
+    
+    <item>
+      <title>Incumbency</title>
       <link>http://example.org/post/2022-10-03-blog-4-incumbency/</link>
       <pubDate>Mon, 03 Oct 2022 00:00:00 +0000</pubDate>
       
       <guid>http://example.org/post/2022-10-03-blog-4-incumbency/</guid>
-      <description>This first map visualizes actual voteshare at the district level in 2018, based on the Democrat vote margin percentage. The map holds many districts that are blue and those that lean towards blue. It means that there is a larger voteshare for Democrats (which is in their favor) at the district level.
-This map visualizes expert predictions based on the Cook Political Report data at the district-level in 2018. There seems to be 1) a larger proportion of secure red districts and 2) stronger blue districts, especially along the West Coast.</description>
+      <description>##Can we trust expert predictions?
+This first map visualizes Democratic voteshare at the district level in 2018, based on the Democrat vote share percentage. The map holds many districts that are blue and those that lean towards Democrats. There seems to be a larger voteshare for Democrats (which is in their favor) at the district level. The districts which voted red during the 2014 midterms (California’s 4th district, Washington’s 4th district, and Texas’s 11th district) all had visibly increased Democrat voteshare.</description>
     </item>
     
     <item>
-      <title>Blog 1</title>
-      <link>http://example.org/post/2022-09-30-blog-1/</link>
-      <pubDate>Fri, 30 Sep 2022 00:00:00 +0000</pubDate>
-      
-      <guid>http://example.org/post/2022-09-30-blog-1/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Blog Post #1</title>
+      <title>Introduction Part 1: U.S.</title>
       <link>http://example.org/post/2022-09-14-blog-post-1/</link>
       <pubDate>Wed, 14 Sep 2022 00:00:00 +0000</pubDate>
       
       <guid>http://example.org/post/2022-09-14-blog-post-1/</guid>
-      <description>Hello world!build</description>
+      <description>##Describing Trends in the Popular Vote In this first blog, I will attempt to answer two questions: 1) How competitive are midterm elections in the U.S.? and 2) Which states vote blue/red and how consistently? Based on all midterm elections from 1950 to 2018, I will use visualizations to address these questions.
+In the Decline of Competition and Change in Congressional Elections in Congress Responds to the Twentieth Century, Professors Campbell and Juerk claim that without competition, elections are meaningless.</description>
     </item>
     
     <item>
-      <title>Visualization, Gerrymandering, and Swing States</title>
-      <link>http://example.org/post/2022-09-14-visualization-gerrymandering-and-swing-states/</link>
+      <title>Introduction Part 2: Illinois</title>
+      <link>http://example.org/post/2022-09-14-introduction-part-2-illinois/</link>
       <pubDate>Wed, 14 Sep 2022 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/2022-09-14-visualization-gerrymandering-and-swing-states/</guid>
-      <description>Hello world!
-Assignments: 1. Visualization customization: a) create a map of Republican/Democrat voteshare margin by state in a year of your choice. b) create a map of Republican/Democrat voteshare margin by state and congressional district in 2014. c) label each state (e.g. AZ) in your map and d) create a custom ggplot2 theme for your blog
-Gerrymandering extension. So far, we’ve been looking at the voteshare margin by party. This means we have been working with the popular vote as opposed to the number of seats won in the House (recall our discussion from Tuesday about the inefficient geographic distribution of Democrats as compared to Republicans that results from gerrymandering — the drawing of district boundaries to give parties electoral advantages) create a map of seats hare by party for the entire U.</description>
+      <guid>http://example.org/post/2022-09-14-introduction-part-2-illinois/</guid>
+      <description>## List of 1 ## $ axis.text.x:List of 11 ## ..$ family : NULL ## ..$ face : NULL ## ..$ colour : NULL ## ..$ size : NULL ## ..$ hjust : num 1 ## ..$ vjust : num 1 ## ..$ angle : num 45 ## ..$ lineheight : NULL ## ..$ margin : NULL ## ..$ debug : NULL ## ..$ inherit.blank: logi FALSE ## ..- attr(*, &amp;quot;class&amp;quot;)= chr [1:2] &amp;quot;element_text&amp;quot; &amp;quot;element&amp;quot; ## - attr(*, &amp;quot;class&amp;quot;)= chr [1:2] &amp;quot;theme&amp;quot; &amp;quot;gg&amp;quot; ## - attr(*, &amp;quot;complete&amp;quot;)= logi FALSE ## - attr(*, &amp;quot;validate&amp;quot;)= logi TRUE ## List of 1 ## $ axis.</description>
     </item>
     
   </channel>
