@@ -64,6 +64,8 @@
 		
 
 
+<p>#Updated Model
+When predicting the 2022 midterm elections, I decided to create a linear regression model based on variables from 3 categories: 1) expert predictions, 2) economic indicators, and 3) demographic variables. Included in expert predictions are three variables that are coded as dummy variables: whether it is a close election or not, whether voters are Lean, Likely, or Safe Democrats, and whether or not the President is a Democrat or not. I also used 2 economic indicators of U.S. CPI (Consumer Price Index) and Unemployment Rate. The demographic variables included the characteristics of voters who were female, age 20-29, or White.</p>
 <pre><code>## 
 ## Call:
 ## lm(formula = DemVotesMajorPercent ~ Close_E_D + LLS_D + Pres_D + 
@@ -90,32 +92,39 @@
 ## Residual standard error: 3.608 on 479 degrees of freedom
 ## Multiple R-squared:  0.656,  Adjusted R-squared:  0.6503 
 ## F-statistic: 114.2 on 8 and 479 DF,  p-value: &lt; 2.2e-16</code></pre>
-<p>##(1) Prediction Model Formula</p>
+<p>#(1) Prediction Model Formula</p>
 <p>Y = 27.32918 + 11.89708<em>X1 + 5.69332</em>X2 - 2.55847<em>X3 - 0.06183</em>X4 + 0.26367<em>X5
 + 57.40102</em>X6 + 19.91099<em>X7 – 2.43858</em>X8</p>
 <p>whereas, Y = Democratic Party Popular Vote Share of two major parties (in %)
-[100-Y = Republican Popular Vote Share of two major parties (in %)]
-X1 = Dummy for Close (Toss-up) Election
-if votes for either candidate &lt; 60% (i.e., margin &lt; 20%), 1
-otherwise, 0
-X2 = Dummy for Lean, Likely, or Solid for Democratic candidate
-if votes for Democratic candidate &gt; 60%, 1
-otherwise, 0
-X3 = Dummy for Democratic President
-if President is Democrat, 1
-otherwise, 0<br />
-X4 = US Consumer Price Index (consumer price level of 1982-84 = 100)
-X5 = US Unemployment Rate (annual average, in %)
-X6 = Share of Female Population among Total Voting Age Population
-X7 = Share of Population (aged 20-29) among Total Voting Age Population
-X8 = Share of White Non-Hispanic Single Race Population among Total
-Voting Age Population</p>
+[100-Y = Republican Popular Vote Share of two major parties (in %)]</p>
+<pre><code>          X1 = Dummy for Close (Toss-up) Election 
+                  if votes for either candidate &lt; 60% (i.e., margin &lt; 20%), 1
+                  otherwise, 0
+                  
+          X2 = Dummy for Lean, Likely, or Solid for Democratic candidate
+                  if votes for Democratic candidate &gt; 60%, 1
+                otherwise, 0
+                
+        X3 = Dummy for Democratic President
+                if President is Democrat, 1
+                otherwise, 0   
+                
+        X4 = US Consumer Price Index (consumer price level of 1982-84 = 100)
+        
+        X5 = US Unemployment Rate (annual average, in %)
+        
+          X6 = Share of Female Population among Total Voting Age Population 
+          
+          X7 = Share of Population (aged 20-29) among Total Voting Age Population
+          
+          X8 = Share of White Non-Hispanic Single Race Population among Total 
+            Voting Age Population</code></pre>
 <p>The actual prediction of national popular vote share for the two parties (Democrat and GOP) in the 2022 House of Representatives election is summarized in section (5).</p>
-<p>##(2) Model Description and Justification</p>
+<p>#(2) Model Description and Justification</p>
 <p>The specified prediction model in section (1) is a multivariate regression model that estimates the popular vote share of Democratic Party for House Representative elections using the past five House Representative election results from 2012 to 2020. The unit of observation is congressional districts in the U.S. Not all the variables are available for the 2012-2022 study period, so the total number of sample observations used to specify the multivariate regression model is 488. This is mainly due to the availability of raw data about expert rating from “FiveThirtyEight.”</p>
 <p>The dependent variable is the Democratic Party vote share out of the total votes to two parities (Democratic and Republican). The proposed model has three groups of independent variables: (i) Political Environment captured by how competitive election is and who is in White House; (ii) Macroeconomic Performance in the U.S. represented by Consumer Price Level, and Labor Market situation (unemployment rate); (iii) Demographic Characteristics of Voting Age Population represented by shares of female, young voters in 20s, and white non-Hispanic voters. The coefficients for all variables except for unemployment rate variable show the expected signs and significant at 5% level. (Details are explained in the following sections.) It is important to consider how close the election is when estimating the popular vote share since this can increase the voter turnout rate. Also, President’s party historically tends to have disadvantages in House elections. National macroeconomic performance can serve as critical factors for voters as well. Demographic characteristics of voters are important to predict the election results, e.g., in an election where majority of voters are more progressive such as younger voters, female, and minority in race, Democratic party’s popular votes tend to increase.</p>
 <p>According to the FiveThirtyEight prediction of national popular vote for 2022 House Representative election, popular vote margin is in favor of Republican party, ranging from 2.3% on Sep 23, 2022 to 6.6% on June 13. In other words, the margin has never been greater than 20%, indicating that 2022 House Representative election is Toss-up election when measured by popular vote. That is why the value of dummy variables (X1 is set to be one, while X2 is set to be zero).</p>
-<p>##(3) Coefficients of Multivariate Regression Model</p>
+<p>#(3) Coefficients of Multivariate Regression Model</p>
 <p>All the coefficients in the proposed multivariate regression model are significant at 5% level as shown below.</p>
 <p>Variable Coefficient Estimate Std. Error t-value Prob. (&gt;|t|)<br />
 (Intercept) 27.32918 10.9767 2.49 0.01312 <em>
@@ -138,7 +147,7 @@ Min 1Q Median 3Q Max
 (45 observations deleted due to missingness)
 Multiple R-squared: 0.656, Adjusted R-squared: 0.6503
 F-statistic: 114.2 on 8 and 479 DF, p-value: &lt; 2.2e-16</p>
-<p>##(4) Interpretation of Coefficients</p>
+<p>#(4) Interpretation of Coefficients</p>
 <p>An estimated coefficient of the model is the marginal effect of an independent variable on the dependent variable (Democratic Party Votes Share out of Total Votes to Democratic and Republican parties). Individual marginal effects of all independent variables are summarized below.</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>X1 (Close_E_D): varies by district and election year
@@ -160,22 +169,11 @@ With one percent increase in the share of population aged from 20 to 29 out of t
 With one percent increase in the share of Single Race White Non-Hispanic population out of total voting age population in a congressional district (raw data from ACS of US Census), Democratic vote share decreases by 0.0243858%.</p></li>
 </ol>
 <p>The coefficients of the model can be utilized to predict the nationwide Democratic vote share when the U.S. average values of the independent variables (that vary by congressional districts) are used. For instance, the U.S. average values of the eight independent variables can be calculated from the raw data for 2022 or the most up-to-date information and inputted to predict the nationwide Democratic vote share for the 2022 House Representative Election.</p>
-<pre class="r"><code># 2022 Data for Prediction : US Average for 2022 House Representative Election
-newdata_2022 &lt;- data.frame(Close_E_D = 1, LLS_D = 0, Pres_D = 1, GDP_Growth_Pct = 5.68, US_CPI = 296.808, US_UEP_Rate = 3.791938312, female = 0.509747974, X20_29 = 0.1742278, white = 0.609723287)
-# Predict Democrat Vote Share (US) for 2022 House RepresentativeElection
-lm_DVsh_US %&gt;% predict(newdata_2022)</code></pre>
 <pre><code>##        1 
 ## 50.55775</code></pre>
-<pre class="r"><code>#### Note from ABBA, Jaewon Lim
-###  After you run above, insert the answer (5) (Prediction part) HERE
-
-# 2022 Data for Prediction : NV-3 for 2022 House Representative Election
-newdata_2022_NV3 &lt;- data.frame(Close_E_D = 1, LLS_D = 0, Pres_D = 1, GDP_Growth_Pct = 5.68, US_CPI = 296.808, US_UEP_Rate = 3.791938312, female = 0.51229666, X20_29 = 0.153353865, white = 0.535751482)
-# Predict Democrat Vote Share (NV-3) for 2022 House Representatives Election
-lm_DVsh_US %&gt;% predict(newdata_2022_NV3)</code></pre>
 <pre><code>##        1 
 ## 50.46881</code></pre>
-<p>##(5) Prediction &amp; Model Validation</p>
+<p>#(5) Prediction &amp; Model Validation</p>
 <p>Prediction Results for 2022 House Election:
 To make a prediction of nationwide Democratic Party Vote Share of the two major party votes, the proposed multivariate regression model is used. For the 2022 House Representative Election, the most recent data available are used at national level from various data sources. Details are summarized in the table below.</p>
 <p>The predicted nationwide Democratic Party vote share of 2022 House Representative Election is 50.56%, whereas the matching share for Republican Party is 49.44% (=100% -50.56%). Consequently, the margin between two major parties is expected to be 1.12%.</p>
@@ -234,15 +232,15 @@ Finally, RMSE (Square Root of Mean Squared Error) can be used to quantify how we
 ## F-statistic: 103.3 on 8 and 344 DF,  p-value: &lt; 2.2e-16</code></pre>
 <pre><code>## [1] 0.706106</code></pre>
 <pre><code>## [1] 6.621018</code></pre>
-<pre><code>## [1] 0.4055639</code></pre>
+<pre><code>## [1] 0.3861393</code></pre>
 <p><img src="http://example.org/post/2022-11-07-final-election-prediction/index_files/figure-html/unnamed-chunk-5-1.png" width="672" />
-Out-of-sample Model Validation:
-Another way to evaluate the predictive power of the model is to simulate out-of-sample prediction by withholding some observations before fitting. With a smaller sample by dropping 2018 observations from the dataset, I can estimate a new (modified) prediction model which will be used to predict the Y2018 (Democrat Vote Share in 2018 election). The newly modified model (lm_DVsh_US_no_2018) has the same set of independent variables but with different coefficients. Also, the R-square of this newly modified model is different from the original model with all observations including the sample from 2018 election. The R-squared value of the modified model is 0.7061. In the next steps, I predicted the values of the Y2018 (Democrat Vote Share in 2018 election) and compared the 135 predicted values with the true (observed) values of the 2018 election. The difference between each observed (true) value of Y2018 and predicted value of Y2018 is the difference between each observed (true) value of Y and predicted value of Y, using the out-of-sample prediction model. From the differences, I can see how well the modified model predicts the (true) value of Y2018 for the held-out observations X2018. RMSE of the out-of-sample model is 6.621018, higher than the all sample RMSE of 3.574183. This reveals that out-of-sample model works significantly worse than the in-sample model with all dataset. With a “Cross-validation.” I repeatedly evaluating performance against many randomly held-out “out-of-sample” datasets, for 1,000 times by dropping randomly selected 100 samples. The graph (Mean out-of-sample residual) above shows the distribution of evaluations in a histogram. The mean of the absolute value of errors from the 1,000 simulations is 0.3972904.</p>
+Out-of-sample Model Validation:</p>
+<p>Another way to evaluate the predictive power of the model is to simulate out-of-sample prediction by withholding some observations before fitting. With a smaller sample by dropping 2018 observations from the dataset, I can estimate a new (modified) prediction model which will be used to predict the Y2018 (Democrat Vote Share in 2018 election). The newly modified model (lm_DVsh_US_no_2018) has the same set of independent variables but with different coefficients. Also, the R-square of this newly modified model is different from the original model with all observations including the sample from 2018 election. The R-squared value of the modified model is 0.7061. In the next steps, I predicted the values of the Y2018 (Democrat Vote Share in 2018 election) and compared the 135 predicted values with the true (observed) values of the 2018 election. The difference between each observed (true) value of Y2018 and predicted value of Y2018 is the difference between each observed (true) value of Y and predicted value of Y, using the out-of-sample prediction model. From the differences, I can see how well the modified model predicts the (true) value of Y2018 for the held-out observations X2018. RMSE of the out-of-sample model is 6.621018, higher than the all sample RMSE of 3.574183. This reveals that out-of-sample model works significantly worse than the in-sample model with all dataset. With a “Cross-validation.” I repeatedly evaluating performance against many randomly held-out “out-of-sample” datasets, for 1,000 times by dropping randomly selected 100 samples. The graph (Mean out-of-sample residual) above shows the distribution of evaluations in a histogram. The mean of the absolute value of errors from the 1,000 simulations is 0.3972904.</p>
 <pre><code>##        fit      lwr      upr
 ## 1 50.55775 43.01576 58.09973</code></pre>
 <pre><code>##        fit      lwr     upr
 ## 1 50.46881 42.91322 58.0244</code></pre>
-<p>##(6) Uncertainty around Prediction (Predictive Interval)</p>
+<p>#(6) Uncertainty around Prediction (Predictive Interval)</p>
 <p>As shown above for 2018 election case, the 95% predictive interval ranges from 49.04% to 63.31%, which includes the predicted national Democrat Vote Share in 2018 House Representative election (56.17%), 1.82% higher than the actual national vote share of Democratic Party in 2018 House Representative election.</p>
 <p>The proposed multivariate regression model predicted the national Democrat Vote Share in 2022 House Representative election, which is 50.56 Representative Election has its fit value of 50.55775% with the 95% of prediction interval ranging from 43.01576% (lower bound) to 58.09973% (upper bound). It means that the 2022 national Democratic vote share of House Representative election would fall in this prediction interval with 95% of probability.</p>
 <pre><code>      fit               lwr                 upr</code></pre>
@@ -251,8 +249,8 @@ Another way to evaluate the predictive power of the model is to simulate out-of-
 <p>The prediction interval for NV-3 district is also estimated. The Democratic candidate (Susie Lee) is expected to win with an estimated vote share of 50.47% against the Republican candidate (Dan Rodimer). With 95% of prediction interval, the lower bound of the popular vote share of Democratic candidate is 42.91% and the upper bound is 58.02%.</p>
 <pre><code>         fit         lwr           upr</code></pre>
 <p>NV-3 50.46881 42.91322 58.0244</p>
-<p><img src="http://example.org/post/2022-11-07-final-election-prediction/index_files/figure-html/unnamed-chunk-8-1.png" width="672" />
-##(7) Graphs showing prediction</p>
+<p><img src="http://example.org/post/2022-11-07-final-election-prediction/index_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>#(7) Graphs showing prediction</p>
 <p>National Democrat Vote Share Graph:
 The first graph shows the scatter plot of the predicted values of the regression model on the horizontal-axis and the observed values of the model on the vertical axis. The red line is the best-fitted line of the scatter plot. If the model perfectly predicted with R-squared value of 1, all the points would have been on the best-fitted line with a slope of 1.</p>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
@@ -271,8 +269,8 @@ The first graph shows the scatter plot of the predicted values of the regression
 <p><img src="http://example.org/post/2022-11-07-final-election-prediction/index_files/figure-html/unnamed-chunk-9-7.png" width="672" /></p>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <p><img src="http://example.org/post/2022-11-07-final-election-prediction/index_files/figure-html/unnamed-chunk-9-8.png" width="672" />
-Graphed Relationship between the Dependent and Independent Variables:
-A set of eight graphs shows the correlations between the dependent variable (Democrat Vote Share of the total votes to two parties) and each of the independent variables included in the prediction model (X1 through X8). The variables with dummy values, X1 (Close_E_D), X2 (LLS_D), and X3 (Pres_D), for Political Environment have only two values (0 and 1) on the horizontal axis showing the two choices of the dummy variables. The independent variables that vary only by election years are the Macroeconomic Performance variables, X4, (US_CPI), and X5 (US_UEP_Rate). These variables have the same values for all the observations in the same year. Finally, the Demographic Characteristics variables, X6 (female), X7 (X20_29), and X8 (white), vary by election years and congressional districts.</p>
+Graphed Relationship between the Dependent and Independent Variables:</p>
+<p>A set of eight graphs shows the correlations between the dependent variable (Democrat Vote Share of the total votes to two parties) and each of the independent variables included in the prediction model (X1 through X8). The variables with dummy values, X1 (Close_E_D), X2 (LLS_D), and X3 (Pres_D), for Political Environment have only two values (0 and 1) on the horizontal axis showing the two choices of the dummy variables. The independent variables that vary only by election years are the Macroeconomic Performance variables, X4, (US_CPI), and X5 (US_UEP_Rate). These variables have the same values for all the observations in the same year. Finally, the Demographic Characteristics variables, X6 (female), X7 (X20_29), and X8 (white), vary by election years and congressional districts.</p>
 <p>For all the correlations, the slope of the best fitted line (in blue color) is proportional to the coefficient of the multivariate regression model. Also, negative slope of a correlation indicates the direction of the marginal effect which is proportional to the slope when significant.</p>
 
 
@@ -290,7 +288,7 @@ A set of eight graphs shows the correlations between the dependent variable (Dem
         		<footer>
 			
 			<span>
-			&copy; <time datetime="2022-11-07 14:06:30.354237 -0500 EST m=&#43;0.226072096">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			&copy; <time datetime="2022-11-17 16:10:46.110556 -0500 EST m=&#43;0.105429078">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
 			</span>
 		</footer>
 
