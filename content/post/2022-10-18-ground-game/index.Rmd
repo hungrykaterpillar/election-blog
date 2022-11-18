@@ -22,8 +22,8 @@ Vote_Inc <- read_csv("incumb_dist_1948-2020 (3).csv")
 #options(repos = list(CRAN="http://cran.rstudio.com/"))
 
 #installing required packages
-install.packages("tidyverse")
-install.packages("dplyr", repos = "http://cran.us.r-project.org") 
+# install.packages("tidyverse")
+# install.packages("dplyr", repos = "http://cran.us.r-project.org") 
 #install.packages('plyr', repos = "http://cran.us.r-project.org")
 
 # loading required packages
