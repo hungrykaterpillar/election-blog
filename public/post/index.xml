@@ -6,7 +6,16 @@
     <description>Recent content in Posts on My New Hugo Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 18 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 26 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Shocks</title>
+      <link>http://example.org/post/2022-10-26-shocks/</link>
+      <pubDate>Wed, 26 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/post/2022-10-26-shocks/</guid>
+      <description>knitr::opts_chunk$set(echo = TRUE) #install.packages(&amp;quot;dotenv&amp;quot;, repos = &amp;quot;http://cran.us.r-project.org&amp;quot;) #install.packages(&amp;quot;jsonlite&amp;quot;, repos = &amp;quot;http://cran.us.r-project.org&amp;quot;) library(dotenv) library(jsonlite) library(tidyverse) ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ── ## ✔ ggplot2 3.3.6 ✔ purrr 0.3.4 ## ✔ tibble 3.1.8 ✔ dplyr 1.0.10 ## ✔ tidyr 1.2.1 ✔ stringr 1.4.0 ## ✔ readr 2.1.1 ✔ forcats 0.5.2 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ── ## ✖ dplyr::filter() masks stats::filter() ## ✖ purrr::flatten() masks jsonlite::flatten() ## ✖ dplyr::lag() masks stats::lag() library(lubridate) ## ## Attaching package: &amp;#39;lubridate&amp;#39; ## ## The following objects are masked from &amp;#39;package:base&amp;#39;: ## ## date, intersect, setdiff, union I chose the Uvalde, Texas school shooting as a potential political shock, because of the nationwide politicization of gun violence in general and this event specifically.</description>
+    </item>
+    
     <item>
       <title>Ground Game</title>
       <link>http://example.org/post/2022-10-18-ground-game/</link>

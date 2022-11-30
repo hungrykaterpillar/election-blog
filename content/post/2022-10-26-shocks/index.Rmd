@@ -1,16 +1,17 @@
 ---
-title: Shocks
-author: Kate Lim-Shim
+title: "Shocks"
+author: "Kate Lim-Shim"
 date: '2022-10-26'
-slug: []
+output: pdf_document
 categories: []
 tags: []
+slug: []
 ---
 
-```{r setup, include = FALSE}
+```{r setup, include = TRUE}
 knitr::opts_chunk$set(echo = TRUE)
-install.packages("dotenv")
-install.packages("jsonlite")
+#install.packages("dotenv", repos = "http://cran.us.r-project.org")
+#install.packages("jsonlite", repos = "http://cran.us.r-project.org")
 library(dotenv)
 library(jsonlite)
 library(tidyverse)
@@ -114,17 +115,17 @@ organizations <- rbind_pages(
 )
 nrow(organizations)
 
-pages <- list()
-Sys.sleep(1) 
-for(i in 0:42){
-  mydata <- fromJSON(paste0(complete_url2, "&page=", i)) 
-  message("Retrieving page ", i)
-  pages[[i+1]] <- mydata$response$docs
-  Sys.sleep(6) 
-}
+#pages <- list()
+#Sys.sleep(1) 
+#for(i in 0:42){
+  #mydata <- fromJSON(paste0(complete_url2, "&page=", i)) 
+  #message("Retrieving page ", i)
+  #pages[[i+1]] <- mydata$response$docs
+  #Sys.sleep(6) 
+#}
 ```
 
-```{r}
+```{r, include = FALSE}
 #####simply do not run this block, no worries!
 #pages <- as.data.frame(pages)
 #do.call(rbind.data.frame, pages)
@@ -221,7 +222,8 @@ gb <- gb %>%
 # get avg by party and week
 dem <- gb %>%
   filter(candidate == 'Democrats')
-x <- plyr::ddply(dem, .(week), function(z) mean(z$pct_estimate))
+library(plyr)
+x <- ddply(dem, .(week), function(z) mean(z$pct_estimate))
 x$candidate <- c('Democrats')
 x$avg_dem <- x$V1
 x <- x %>%
@@ -282,7 +284,7 @@ polls_df %>%
 After understanding how significant the Uvalde shooting was in national conversation (shown through the NYT article count), it would be helpful to see how this "shock" affected Democrat and Republican ballot support, seeing if the shock was political in nature. Prior to the shooting itself, generic ballot support for Republicans was already decreasing from a peak. After the shooting, the decreasing trend continued so it is difficult to say if it is exactly the Uvalde shooting that was an isolated factor in decreasing support. The Democrat ballot support dipped right after the shooting (which could make sense in that voters could have felt disappointed in the lack of gun control policies), but about a month after the shooting when the support hit a new low, Democrat support started to steadily increase. This effect has been lasting for more than 12 weeks. While there could be other factors/events such as the Dobbs Supreme Court Decision or President Biden's pardoning of those in jail because of marijuana possession, it is undeniable that after the shooting, the Democrat ballot support increased. This result affects my predictions in that I expect many more events that are political and non-political to have meaningful and logical effects on my model. However, I also predict that other events that may not be political in nature may have effects that do not make sense, such as the 24th week (mid-June) of 2022. The Sheep Fire burned through California during this week, among other occurrences unrelated to ballot support. How could one isolate certain events in predicting their effects on national seat share? 
 
 ##Updated Prediction Model
-```{r}
+```{r, include = FALSE}
 # read csv file and create an object, h
 Exp_Pred <- read.csv("R_1024/Expert_Prediction_cleaned.csv")
 Ads_Cost <- read.csv("R_1024/Ads_Cost_2012_2018.csv")
@@ -293,29 +295,31 @@ Vote_Inc <- read.csv("R_1024/incumb_dist_1948-2020 (3).csv")
 library(tidyverse)
 ```
 
-```{r}
+```{r, include = FALSE}
+library(dplyr)
+
 Exp_Pred_2012_2020 <- Exp_Pred %>%
   select(year, state, district_num, avg_rating, Close_E_D, LLS_D, LLS_R, St_AVG_R) %>%
   group_by(year, state, district_num) %>%
-  rename(DISTRICT = district_num, STATENAME = state)
+  dplyr::rename(DISTRICT = district_num, STATENAME = state)
 
 Ads_Cost_2012_2018 <- Ads_Cost %>%
   select(st_cd_fips, STATENAME, DISTRICT, year, est_cost_sum) %>%
   group_by(year, STATENAME, DISTRICT) %>%
-  rename(DISTRICT = DISTRICT, STATENAME = STATENAME)
+  dplyr::rename(DISTRICT = DISTRICT, STATENAME = STATENAME)
 
 CVAP_2012_2020 <- CVAP %>%
   select(cd, state, cvap, year) %>%
   group_by(year, state, cd) %>%
-  rename(DISTRICT = cd, STATENAME = state)
+  dplyr::rename(DISTRICT = cd, STATENAME = state)
 
 Vote_Inc_1948_2020 <- Vote_Inc %>%
   select(year, state, district_num, RepVotes, DemVotes,RepVotesMajorPercent, DemVotesMajorPercent, Incumbent_R, Incumbent_D, Open_seat) %>%
   group_by(year, state, district_num) %>%
-  rename(DISTRICT = district_num, STATENAME = state)
-````
+  dplyr::rename(DISTRICT = district_num, STATENAME = state)
+```
 
-```{r}
+```{r, include = FALSE}
 ExpP_LJ_CVAP_2012_2020 <- Exp_Pred_2012_2020 %>% left_join(CVAP_2012_2020, by=c("year", "DISTRICT", "STATENAME"))
 
 Final_Dataset_2012_2020 <- ExpP_LJ_CVAP_2012_2020 %>% left_join(Vote_Inc_1948_2020, by=c("year", "DISTRICT", "STATENAME")) 
@@ -323,21 +327,21 @@ Final_Dataset_2012_2020 <- ExpP_LJ_CVAP_2012_2020 %>% left_join(Vote_Inc_1948_20
 Final_2012_2020_D <- Final_Dataset_2012_2020 %>%
   select(year, STATENAME, DISTRICT, avg_rating, Close_E_D, LLS_R, LLS_D, St_AVG_R, cvap, RepVotes, DemVotes, RepVotesMajorPercent, DemVotesMajorPercent, Incumbent_R, Incumbent_D, Open_seat) %>%
   mutate(voterTR = ((RepVotes)+(DemVotes))/(cvap)) %>%
-  rename(DISTRICT = DISTRICT, STATENAME = STATENAME)
+  dplyr::rename(DISTRICT = DISTRICT, STATENAME = STATENAME)
 
 ##write.csv(Final_2012_2018_D, "Final_2012_2020_D.csv")
 ```
 
-```{r}
+```{r, echo = FALSE}
 ############
 library(readr)
-Final_2012_2020_DF <- read_csv("~/Downloads/R_1024/Final_2012_2020_DF.csv")
+Final_2012_2020_DF <- read_csv("R_1024/Final_2012_2020_DF.csv")
 
 Final_2012_2018_DF <- Final_2012_2020_DF %>% left_join(Ads_Cost_2012_2018, by=c("year", "DISTRICT", "STATENAME"))
 
-EE_data_R1 <- read.csv("~/Downloads/R_1024/Election_Economy_R1.csv")
+EE_data_R1 <- read.csv("R_1024/Election_Economy_R1.csv")
 Final_2012_2018_DF_ME_R1 <- EE_data_R1 %>% left_join(Final_2012_2018_DF, by=c("year"))
-write.csv(Final_2012_2018_DF_ME_R1, "~/Downloads/R_1024/Final_2012_2018_DF_ME_R1.csv")
+write.csv(Final_2012_2018_DF_ME_R1, "R_1024/Final_2012_2018_DF_ME_R1.csv")
 ##### interpretation: XXXXXX
 ##==================================================
 lm_DVsh_M1 <- lm (DemVotesMajorPercent ~ Close_E_D+LLS_D+Pres_D+GDP_Growth_Pct+US_CPI+US_Unemployment.Rate, data=Final_2012_2018_DF_ME_R1)
@@ -346,17 +350,17 @@ summary(lm_DVsh_M1)
 ##==================================================
 ```
 
-```{r}
-Demog_0920 <- read.csv("demographic_2009_2020.csv")
+```{r, include = FALSE}
+Demog_0920 <- read.csv("R_1024/demographic_2009_2020.csv")
 Demog_0920 <- Demog_0920 %>% mutate_at(c('district'), as.numeric)
 
 Demog_0920_R <- Demog_0920 %>%
-  rename(DISTRICT = district, STATENAME = state)
+  dplyr::rename(DISTRICT = district, STATENAME = state)
 
 Final_Dataset_2012_2020_ME_R2 <- Final_2012_2018_DF_ME_R1 %>% left_join(Demog_0920_R, by=c("year", "DISTRICT", "STATENAME")) 
 ```
 
-```{r}
+```{r, echo = FALSE}
 ##==================================================
 lm_DVsh_M2 <- lm (DemVotesMajorPercent ~ Close_E_D+LLS_D+Pres_D+GDP_Growth_Pct+US_CPI+US_Unemployment.Rate+female+X20_29+white, data=Final_Dataset_2012_2020_ME_R2)
 summary(lm_DVsh_M2)

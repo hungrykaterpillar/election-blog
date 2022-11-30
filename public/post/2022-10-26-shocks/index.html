@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+		
+		
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>Shocks &middot; My New Hugo Site</title>
+
+		
+		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="/css/fonts.css">
+		
+		<link rel="icon" href="/favicon.ico"/>
+		<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+		
+		<link href="" rel="alternate" type="application/rss+xml" title="My New Hugo Site" />
+
+		<script src="/js/darkmode.js"></script>
+	</head>
+
+    <body>
+        		<nav class="nav">
+			<div class="nav-container">
+				<a href="/">
+					
+						<h2 class="nav-title">My New Hugo Site</h2>
+					
+				</a>
+				<ul>
+    
+    
+</ul>
+			</div>
+		</nav>
+
+        <div id="darkModeToggle" onclick="toggleDarkMode()">
+  &#9680; 
+</div>
+
+        
+
+<main>
+	
+
+
+        <div class="post">
+		<div class="post-info">
+    <span>Written by</span>
+        Kate Lim-Shim
+        <br>
+        <span>on&nbsp;</span><time datetime="2022-10-26 00:00:00 &#43;0000 UTC">October 26, 2022</time>
+</div>
+
+		<h1 class="post-title">Shocks</h1>
+<div class="post-line"></div>
+
+		
+
+		
+
+
+<pre class="r"><code>knitr::opts_chunk$set(echo = TRUE)
+#install.packages(&quot;dotenv&quot;, repos = &quot;http://cran.us.r-project.org&quot;)
+#install.packages(&quot;jsonlite&quot;, repos = &quot;http://cran.us.r-project.org&quot;)
+library(dotenv)
+library(jsonlite)
+library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+## ✔ ggplot2 3.3.6      ✔ purrr   0.3.4 
+## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
+## ✔ tidyr   1.2.1      ✔ stringr 1.4.0 
+## ✔ readr   2.1.1      ✔ forcats 0.5.2 
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter()  masks stats::filter()
+## ✖ purrr::flatten() masks jsonlite::flatten()
+## ✖ dplyr::lag()     masks stats::lag()</code></pre>
+<pre class="r"><code>library(lubridate)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;lubridate&#39;
+## 
+## The following objects are masked from &#39;package:base&#39;:
+## 
+##     date, intersect, setdiff, union</code></pre>
+<p><img src="http://example.org/post/2022-10-26-shocks/index_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="http://example.org/post/2022-10-26-shocks/index_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="http://example.org/post/2022-10-26-shocks/index_files/figure-html/unnamed-chunk-10-1.png" width="672" />
+I chose the Uvalde, Texas school shooting as a potential political shock, because of the nationwide politicization of gun violence in general and this event specifically. Here, it is shown that The Uvalde Shooting at 21 weeks in 2022 (the event itself occurred on May 24th, 2022) spiked the number of articles written containing the keyword “Uvalde” from nearly 0 articles the week before to nearly 130 articles the week of the shooting. Although the article count has steadily decreased to a manageable number, it still is above 0 and there were still many articles written 8 weeks after the shooting, showing the significance of the event on national news and media.</p>
+<p><img src="http://example.org/post/2022-10-26-shocks/index_files/figure-html/unnamed-chunk-13-1.png" width="672" />
+After understanding how significant the Uvalde shooting was in national conversation (shown through the NYT article count), it would be helpful to see how this “shock” affected Democrat and Republican ballot support, seeing if the shock was political in nature. Prior to the shooting itself, generic ballot support for Republicans was already decreasing from a peak. After the shooting, the decreasing trend continued so it is difficult to say if it is exactly the Uvalde shooting that was an isolated factor in decreasing support. The Democrat ballot support dipped right after the shooting (which could make sense in that voters could have felt disappointed in the lack of gun control policies), but about a month after the shooting when the support hit a new low, Democrat support started to steadily increase. This effect has been lasting for more than 12 weeks. While there could be other factors/events such as the Dobbs Supreme Court Decision or President Biden’s pardoning of those in jail because of marijuana possession, it is undeniable that after the shooting, the Democrat ballot support increased. This result affects my predictions in that I expect many more events that are political and non-political to have meaningful and logical effects on my model. However, I also predict that other events that may not be political in nature may have effects that do not make sense, such as the 24th week (mid-June) of 2022. The Sheep Fire burned through California during this week, among other occurrences unrelated to ballot support. How could one isolate certain events in predicting their effects on national seat share?</p>
+<p>##Updated Prediction Model</p>
+<pre><code>## New names:
+## Rows: 501 Columns: 25
+## ── Column specification
+## ──────────────────────────────────────────────────────── Delimiter: &quot;,&quot; chr
+## (1): STATENAME dbl (24): ...1, year, DISTRICT, avg_rating, Close_E_D, LLS_R,
+## LLS_D, St_AVG_...
+## ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
+## Specify the column types or set `show_col_types = FALSE` to quiet this message.
+## • `` -&gt; `...1`</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = DemVotesMajorPercent ~ Close_E_D + LLS_D + Pres_D + 
+##     GDP_Growth_Pct + US_CPI + US_Unemployment.Rate, data = Final_2012_2018_DF_ME_R1)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -14.2619  -1.9945  -0.0702   1.9113  18.6393 
+## 
+## Coefficients:
+##                       Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)          108.54640    6.32723  17.155  &lt; 2e-16 ***
+## Close_E_D             12.39792    0.38524  32.182  &lt; 2e-16 ***
+## LLS_D                  6.21832    0.35369  17.581  &lt; 2e-16 ***
+## Pres_D                -8.78989    1.02512  -8.575  &lt; 2e-16 ***
+## GDP_Growth_Pct         6.88061    0.70626   9.742  &lt; 2e-16 ***
+## US_CPI                -0.35633    0.03381 -10.540  &lt; 2e-16 ***
+## US_Unemployment.Rate   0.47755    0.08122   5.880 7.58e-09 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.373 on 494 degrees of freedom
+##   (32 observations deleted due to missingness)
+## Multiple R-squared:  0.6967, Adjusted R-squared:  0.693 
+## F-statistic: 189.2 on 6 and 494 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = DemVotesMajorPercent ~ Close_E_D + LLS_D + Pres_D + 
+##     GDP_Growth_Pct + US_CPI + US_Unemployment.Rate + female + 
+##     X20_29 + white, data = Final_Dataset_2012_2020_ME_R2)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -15.0273  -1.8862  -0.0137   1.8969  18.1404 
+## 
+## Coefficients:
+##                      Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)          84.76432   11.65918   7.270 1.48e-12 ***
+## Close_E_D            12.03076    0.39087  30.779  &lt; 2e-16 ***
+## LLS_D                 5.96555    0.35590  16.762  &lt; 2e-16 ***
+## Pres_D               -8.68611    1.02628  -8.464 3.19e-16 ***
+## GDP_Growth_Pct        6.83211    0.70572   9.681  &lt; 2e-16 ***
+## US_CPI               -0.35751    0.03375 -10.593  &lt; 2e-16 ***
+## US_Unemployment.Rate  0.46956    0.08131   5.775 1.39e-08 ***
+## female               43.90867   17.04691   2.576  0.01030 *  
+## X20_29               19.75376    6.56733   3.008  0.00277 ** 
+## white                -2.47283    0.92664  -2.669  0.00788 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.303 on 478 degrees of freedom
+##   (45 observations deleted due to missingness)
+## Multiple R-squared:  0.7123, Adjusted R-squared:  0.7069 
+## F-statistic: 131.5 on 9 and 478 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = DemVotesMajorPercent ~ Close_E_D + LLS_D + Pres_D + 
+##     GDP_Growth_Pct + US_CPI + US_Unemployment.Rate + female + 
+##     X20_29 + X65. + white, data = Final_Dataset_2012_2020_ME_R2)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -14.8174  -1.9569   0.0251   1.8162  18.0756 
+## 
+## Coefficients:
+##                      Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)          85.24539   11.64060   7.323 1.04e-12 ***
+## Close_E_D            12.03066    0.39013  30.837  &lt; 2e-16 ***
+## LLS_D                 5.92079    0.35623  16.621  &lt; 2e-16 ***
+## Pres_D               -8.69681    1.02436  -8.490 2.64e-16 ***
+## GDP_Growth_Pct        6.79219    0.70479   9.637  &lt; 2e-16 ***
+## US_CPI               -0.34646    0.03432 -10.095  &lt; 2e-16 ***
+## US_Unemployment.Rate  0.46894    0.08116   5.778 1.37e-08 ***
+## female               42.86342   17.02598   2.518   0.0121 *  
+## X20_29               14.07863    7.37538   1.909   0.0569 .  
+## X65.                 -9.22345    5.49460  -1.679   0.0939 .  
+## white                -2.08094    0.95389  -2.182   0.0296 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.296 on 477 degrees of freedom
+##   (45 observations deleted due to missingness)
+## Multiple R-squared:  0.714,  Adjusted R-squared:  0.708 
+## F-statistic: 119.1 on 10 and 477 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Compared to last week’s model, the Adjusted R-squared was improved to 0.7069 in the first model which created a linear regression based on using the variables of close election (dummy variable), lean/likely/strong Democrats (dummy), Democratic President (dummy), GDP Growth Percentage, U.S. Consumer Price Index (CPI), U.S. Unemployment Rate, female or not (dummy), population belonging to ages 20-29, and White population. These were all used to predict the DemVotesMajorPercent output, which was the national win share for Democrats.</p>
+<p>In this model, the F-statistic value shows that the independent variables are jointly significant in estimating the DemVotesMajorPercent. The Close Election variable, which was significant at 0.1%, had a positive effect on the DemVotesMajorPercent with a 1% increase in Close Election increasing the DemVotesMajorPercent by 12.03%. A 1% increase in Lean, Likely, and Strong Democrats was significant at 0.1% and increased the Democrat vote share by 5.97%. A 1% increase in the Democrat President (significant at 0.1%) decreased the Democrat vote share by 8.69%. A 1% increase in the GDP Growth Percentage (significant at 0.1%) increased the Democrat vote share by 6.83%. A 1% increase in the U.S. CPI (significant at 0.1%) decreased the Democrat vote share by 0.36%. A 1% increase in the U.S. Unemployment Rate (significant at 0.1%) increased the Democrat vote share by 0.47%. A 0.01% increase in the female population (significant at 5%) increased the Democrat vote share by 0.4396%. A 1% increase in the population aged 20-29 (significant at 1%) increased the vote share by 19.75%. A 1% increase in the White, non-Hispanic population (significant at 1%) decreased the Democrat vote share by 0.0247%.</p>
+<p>To improve the predictive power of my model, I added one more variable: elderly population aged 65 or older. The Close Election, Lean, Likely, Strong Democrats, Democrat President, and other economic indicators of GDP Growth Percentage, U.S. CPI, and U.S. Unemployment Rate were all similar in their effects on the DemVotesMajorPercent variable. Overall, the adjusted R-squared was slightly improved to 0.7080 and the F-Statistic showed that the independent variables are all jointly significant in estimating the DemVotesMajorPercent. A 1% increase in the female population, significant at 5%, increased the Democrat Major Vote Share outcome by 0.4286%. A 1% increase in the population in their 20s (signficant at 10%) increased the Democrat vote share by 0.1408%. A 1% increase in the elderly population 65 years and older (significant at 10%) decreased the Democrat vote share by 0.0922%. A 1% increase in the White, non-Hispanic population (significant at 5%) decreased the Democrat vote share by 0.02081%. While the overall R squared increased, some variables only became significant at higher p-values, which could decrease the quality of their explanatory power.</p>
+
+
+		
+	</div>
+
+	<div class="pagination">
+		<a href="/post/2022-10-18-ground-game/" class="left arrow">&#8592;</a>
+
+		<a href="#" class="top">Top</a>
+	</div>
+</main>
+
+
+        		<footer>
+			
+			<span>
+			&copy; <time datetime="2022-11-30 10:36:20.782413 -0500 EST m=&#43;0.099992032">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			</span>
+		</footer>
+
+    </body>
+</html>
