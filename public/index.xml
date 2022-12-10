@@ -6,16 +6,7 @@
     <description>Recent content on My New Hugo Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 07 Dec 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>District Reflection</title>
-      <link>http://example.org/post/2022-12-07-district-reflection/</link>
-      <pubDate>Wed, 07 Dec 2022 00:00:00 +0000</pubDate>
-      
-      <guid>http://example.org/post/2022-12-07-district-reflection/</guid>
-      <description></description>
-    </item>
-    
+    <lastBuildDate>Mon, 07 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Final Election Prediction</title>
       <link>http://example.org/post/2022-11-07-final-election-prediction/</link>
@@ -23,6 +14,45 @@
       
       <guid>http://example.org/post/2022-11-07-final-election-prediction/</guid>
       <description>#Updated Model When predicting the 2022 midterm elections, I decided to create a linear regression model based on variables from 3 categories: 1) expert predictions, 2) economic indicators, and 3) demographic variables. Included in expert predictions are three variables that are coded as dummy variables: whether it is a close election or not, whether voters are Lean, Likely, or Safe Democrats, and whether or not the President is a Democrat or not.</description>
+    </item>
+    
+    <item>
+      <title>Ground Game</title>
+      <link>http://example.org/post/2022-10-18-ground-game/</link>
+      <pubDate>Tue, 18 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/post/2022-10-18-ground-game/</guid>
+      <description>Do Expert Predictions predict turnout? In my district-level two-party vote share predictions, I incorporated turnout, incumbency and expert predictions to predict turnout and understand the relationship between expert predictions and ground campaigns with turnout as well as ad spending in turnout. I broke down my analysis into 2 different types of models, testing different variables that I found to be relevant.
+We have learned in class that with all the campaigning during an election, it is useful to adjust predictions based on the information acquired up until the day before the election.</description>
+    </item>
+    
+    <item>
+      <title>Expert Predictions and Incumbency</title>
+      <link>http://example.org/post/2022-10-03-blog-4-incumbency/</link>
+      <pubDate>Mon, 03 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/post/2022-10-03-blog-4-incumbency/</guid>
+      <description>## Part 1: Can we trust expert predictions?
+Expert predictions have long been a method to assure voters of order in a volatile political climate. We have come to a point where we trust models from big media sources and academics that are based on a small number of elections with reliable data along with a couple of heavy handed assumptions. But as Enos and Hersh show in their 2015 paper, “Campaign Perceptions of Electoral Closeness: Uncertainty, Fear and Over-Confidence”, political campaign operatives tend to be overconfident in their candidates’ performance, skewing the perception of the closeness of an election.</description>
+    </item>
+    
+    <item>
+      <title>Introduction Part 1: U.S.</title>
+      <link>http://example.org/post/2022-09-14-blog-post-1/</link>
+      <pubDate>Wed, 14 Sep 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/post/2022-09-14-blog-post-1/</guid>
+      <description>Describing Trends in the Popular Vote In this first blog, I will attempt to answer two questions: 1) How competitive are midterm elections in the U.S.? 2) Which states vote blue/red and how consistently? Based on all midterm elections from 1950 to 2018, I will use visualizations to address these questions.
+In the Decline of Competition and Change in Congressional Elections in Congress Responds to the Twentieth Century, Professors Campbell and Juerk claim that without competition, elections are meaningless.</description>
+    </item>
+    
+    <item>
+      <title>Introduction Part 2: Illinois</title>
+      <link>http://example.org/post/2022-09-14-introduction-part-2-illinois/</link>
+      <pubDate>Wed, 14 Sep 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/post/2022-09-14-introduction-part-2-illinois/</guid>
+      <description>## List of 1 ## $ axis.text.x:List of 11 ## ..$ family : NULL ## ..$ face : NULL ## ..$ colour : NULL ## ..$ size : NULL ## ..$ hjust : num 1 ## ..$ vjust : num 1 ## ..$ angle : num 45 ## ..$ lineheight : NULL ## ..$ margin : NULL ## ..$ debug : NULL ## ..$ inherit.blank: logi FALSE ## ..- attr(*, &amp;quot;class&amp;quot;)= chr [1:2] &amp;quot;element_text&amp;quot; &amp;quot;element&amp;quot; ## - attr(*, &amp;quot;class&amp;quot;)= chr [1:2] &amp;quot;theme&amp;quot; &amp;quot;gg&amp;quot; ## - attr(*, &amp;quot;complete&amp;quot;)= logi FALSE ## - attr(*, &amp;quot;validate&amp;quot;)= logi TRUE ## List of 1 ## $ axis.</description>
     </item>
     
   </channel>

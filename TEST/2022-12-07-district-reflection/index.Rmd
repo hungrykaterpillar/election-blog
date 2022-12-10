@@ -1,0 +1,58 @@
+---
+title: District Reflection
+author: Kate Lim-Shim
+date: '2022-12-07'
+slug: []
+categories: []
+tags: []
+---
+```{r, echo = FALSE}
+## Introduction
+The district I chose to focus on was Nevada’s 3rd congressional district. While Congresswoman Susie Lee has maintained her position for 3 cycles (including the 2022 midterm elections), the 3rd district is known to be a notoriously tight race, and I was interested in observing a diverse and competitive district. In my final prediction, I ultimately decided upon NV-03 because it had the qualities I was looking for, namely that it was in a swing state often mistaken as a Blue state. Nevada is also known for its stable partisan lean between Republicans and Democrats, which may be less extreme now but has maintained its balance. And even though through a Blue state electorate, the redistricting process was controlled by a Democratic majority, NPR reported that NV-03 actually gained more Republican voters than before.
+However, with a Blue state electorate, the redistricting process was controlled by the Democrat majority, and the results were interesting to say the least.
+
+
+
+## Brief General Overview of the District
+District 3, specifically, has some notable features including its geography, demographics, the candidates, its electoral history, among others. While one may argue that NV-03 is no longer a toss-up because of redistricting, its past history as a nail-biter is enough to show the For context, FiveThirtyEight found through their new map ahead of the 2022 midterms, there are 1 Democratic-leaning seat, 1 Republican-leaning seat, and 2 highly competitive seats. While this fact did not change from the previous map, the partisan lean towards each side was much less extreme than in earlier years. To evaluate the competitiveness and fairness of the elections, we can look at the median seat, efficiency gap, and competitiveness. The median seat, which is the difference between the partisan lean of the state’s median district and the state as a whole, changed most drastically from Republicans leading with 0.2 percentage points (R + 0.2) to Dems + 5.5 points, which confirms the slight lean towards Democrats. Both the efficiency gap and competitiveness had little to no differences. FiveThirtyEight also found that NV-03 was the most competitive district in the state with a partisan lean of Dem + 2. 
+
+Data USA reports that the racial makeup of the district is fairly diverse with White (Non-Hispanic) voters making up 54% of the population, Asian (Non-Hispanic) 14%, Black/African American (Non-Hispanic) 7.68%, White (Hispanic) 9.62%, Multiracial (Non-Hispanic) 4.96%, Multiracial (Hispanic) 2.55%, Other (Hispanic) 4.87%, among others. What is most notable in demographics, however, is that the foreign-born population has a high share of 18.5%. Other demographic characteristics include employment, household income, poverty rate, property value, and education level. With a high employment growth rate and a high standard of living, most jobs are distributed to Accomodation and Food Services, Retail Trade, and Health Care & Social Assistance. When discussing the standard of living, it is important to note that Representative Susie Lee improved the 2020 median property value to $338,000. Currently, the poverty rate is at 8.66%, which is substantially lower than the national average. Even considering this general pattern showing a slow shift towards Democrats and reasons to be satisfied under Representative Lee’s leadership, NV-03 was included in the 2 competitive races to watch.
+
+![](Images/Figure 1)
+
+
+
+## Residual of Forecast vs Actual Results 
+
+Y = 27.32918+ 11.89708*X1 + 5.69332*X2 -2.55847*X3 -0.06183*X4 + 0.26367*X5 
+      + 57.40102*X6 + 19.91099*X7 – 2.43858* X8
+
+whereas,  	Y = Democratic Party Popular Vote Share of two major parties (in %) 
+			[100-Y = Republican Popular Vote Share of two major parties (in %)]
+		X1 = Dummy for Close (Toss-up) Election 
+			if votes for either candidate < 60% (i.e., margin < 20%), 	1
+			otherwise, 						0
+		X2 = Dummy for Lean, Likely, or Solid for Democratic candidate
+			if votes for Democratic candidate > 60%, 			1
+			otherwise, 						0
+		X3 = Dummy for Democratic President
+			if President is Democrat, 					1
+			otherwise, 						0
+		X4 = US Consumer Price Index (consumer price level of 1982-84 = 100)
+		X5 = US Unemployment Rate (annual average, in %)
+		X6 = Share of Female Population among Total Voting Age Population 
+		X7 = Share of Population (aged 20-29) among Total Voting Age Population
+		X8 = Share of White Non-Hispanic Single Race Population among Total 
+        Voting Age Population
+
+The prediction for the most competitive district in Nevada (NV-03) was made using the proposed model above. The demographic characteristics of the district and U.S. macroeconomic conditions with the expert ratings for the election are used to estimate the popular vote share of the Democratic candidate. The predicted Democratic candidate’s (Susie Lee) vote share in NV-03 for the 2022 House of Representatives Election was 50.47%, whereas the matching share for Republican candidate (April Becker) was 49.53% (when solely looking at a two-party vote share). Therefore the margin between the two major parties was expected to be 0.94%. 
+
+The prediction interval for the NV-03 district was estimated as well. The Democratic candidate (Susie Lee) was expected to win with an estimated vote share of 51.40% against the Republican candidate (April Becker). With 95% of the predictive interval, the lower bound of the popular vote share of the Democratic candidate is 43.77% and the upper bound 59.03%. 
+
+To check the prediction model’s accuracy, we can check the residuals (gap between the prediction and the actual election results from the 2022 midterm elections). The model works better with more accurate predictions for a specific congressional district (i.e. Nevada’s 3rd district) than the U.S. popular vote. When looking at NV-03, the predicted popular vote for the Democratic candidate was 50.47% and the actual popular vote for the candidate was 51.98%. The prediction model underestimated the popular vote share for the Democratic candidate, Susie Lee, by 1.51%. But the 95% prediction interval ranged from 42.91% to 58.02%, which, albeit large, contained the actual popular vote for Lee. 
+
+
+
+## Summary of Campaign in District and How Candidates Contribute to Deviations from Forecasted Outcomes
+Considered one of the most competitive congressional elections in the 2022 midterm cycle, the election itself was challenging and characterized by a nasty fight between the two candidates. In order to protect her vulnerable seat, Lee raised a record amount of money, according to NPR, of more than $5 million in the so-called “air war.” This record was not only limited to the amount raised, as the race attracted funds from outside groups, becoming one of the most expensive House races in the country. Following the Dobbs Supreme Court ruling, Lee spent the majority of her campaign attacking April Becker’s stance on abortion while Becker continuously brought up the possibility that Lee could financially benefit when supporting her own legislation and for backing President Biden’s economy. Because of the tight nature of the race, President Obama was brought in during a campaign rally, where he slammed Republicans for giving tax breaks to the wealthy. Candidate quality is crucial when thinking about how tight a race may be, and it is even more important of a factor with emotional and unpredictable voters. National outlets such as The Washington Post, Politico, and New York Times, as well as other local news sources like the Nevada Independent covered the race. 
+```
