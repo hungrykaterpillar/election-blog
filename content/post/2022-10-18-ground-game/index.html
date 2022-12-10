@@ -1,0 +1,159 @@
+---
+title: Ground Game
+author: Kate Lim-Shim
+date: '2022-10-18'
+slug: []
+categories: []
+tags: []
+---
+
+
+
+<div id="do-expert-predictions-predict-turnout" class="section level2">
+<h2>Do Expert Predictions predict turnout?</h2>
+<p>In my district-level two-party vote share predictions, I incorporated turnout, incumbency and expert predictions to predict turnout and understand the relationship between expert predictions and ground campaigns with turnout as well as ad spending in turnout. I broke down my analysis into 2 different types of models, testing different variables that I found to be relevant.</p>
+<p>We have learned in class that with all the campaigning during an election, it is useful to adjust predictions based on the information acquired up until the day before the election. Equally, fundamentals can be good predictors of outcomes, as shown in Andreas Grafe’s study [Predicting elections: Experts, polls, and fundamentals]<a href="https://www.sas.upenn.edu/~baron/journal/18/18124/jdm18124.html" class="uri">https://www.sas.upenn.edu/~baron/journal/18/18124/jdm18124.html</a>. To evaluate the pressing question of if expert predictions truly predict turnout I created the model below based on the available data from 2012-2020.</p>
+<pre><code>## 
+## Call:
+## lm(formula = voterTR ~ Close_E_D + Incumbent_R + MidtermE_D + 
+##     Open_seat, data = Final_2012_2020_DF)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.28111 -0.05644  0.01246  0.07019  0.23198 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  0.591932   0.015360  38.537   &lt;2e-16 ***
+## Close_E_D    0.032630   0.015349   2.126   0.0341 *  
+## Incumbent_R  0.034581   0.016127   2.144   0.0326 *  
+## MidtermE_D  -0.131268   0.010230 -12.832   &lt;2e-16 ***
+## Open_seat   -0.003483   0.016599  -0.210   0.8339    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.1003 on 390 degrees of freedom
+##   (106 observations deleted due to missingness)
+## Multiple R-squared:  0.3108, Adjusted R-squared:  0.3038 
+## F-statistic: 43.97 on 4 and 390 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Voter Turnout = 0.5920 + 0.0326(Close Election Dummy, 1 for yes, 0 for no) + 0.0346(Republican Incumbent Dummy) - 0.1313(Midterm Election Dummy) - 0.0035(Open Seat Dummy)</p>
+<p>The close election variable (dummy variable made based on the Likert scale with anything greater than 3 and less than 5, 1 being the highest in support for Democrat and 5 for Republican) is significant at the 5% level. When the rating is in between Lean Democrat and Lean Republican, close elections actually had a positive impact on voter turnout rate, increasing it by 3.26%. For districts where the candidate is a Republican Incumbent, voter turnout increased by 3.46%, and where the elections were midterms (which was our control variable), voter turnout decreased by 13.13%. Overall, based on the adjusted r squared, 30.38% of the variation in voter turnout was explained by our model based on expert predictions.</p>
+<pre><code>## 
+## Call:
+## lm(formula = voterTR ~ Close_E_D + Incumbent_D + MidtermE_D + 
+##     Open_seat, data = Final_2012_2020_DF)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.28111 -0.05644  0.01246  0.07019  0.23198 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  0.626513   0.008446  74.183  &lt; 2e-16 ***
+## Close_E_D    0.032630   0.015349   2.126  0.03414 *  
+## Incumbent_D -0.034581   0.016127  -2.144  0.03263 *  
+## MidtermE_D  -0.131268   0.010230 -12.832  &lt; 2e-16 ***
+## Open_seat   -0.038064   0.013030  -2.921  0.00369 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.1003 on 390 degrees of freedom
+##   (106 observations deleted due to missingness)
+## Multiple R-squared:  0.3108, Adjusted R-squared:  0.3038 
+## F-statistic: 43.97 on 4 and 390 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Voter Turnout = 0.6265 + 0.0326(Close Election Dummy, 1 for yes, 0 for no) - 0.0346(Democrat Incumbent Dummy) - 0.1313(Midterm Election Dummy) - 0.0038(Open Seat Dummy)</p>
+<p>If it is a close election, the voter turnout rate also increased by 3.26%. For districts where the candidate is a Democrat Incumbent, voter turnout decreased by 3.46%, and where the elections were midterms, voter turnout decreased also by 13.13%. The benefit of this model over the one above is that the open seat variable is significant at the 1% level.</p>
+<p>Both models are the same with the exception of the Republican vs Democrat Incumbent candidate. They consider dummy variables of whether it is a close election, what party the incumbent belongs to, whether it is a midterm election or not, and whether the seat is open or not. I found that the close election and incumbent party dummies were significant at 5% whereas whether or not the election was a midterm was very significant at 1% and whether the seat was open or not did not matter as much with no significance. Both models had a slightly lower R-squared than I had desired, at 30.38%. There were two observed differences between the two besides a difference in the intercept (with a Republican incumbent, the voter turnout intercept was slightly lower). 1. The open seat dummy was not significant and lower for Republican incumbents while it was higher in effect for Democrat incumbents and significant at 1%. 2. The Republican or Democrat Incumbent variable had the polar opposite effects on voter turnout as voter turnout increased in the case that the incumbent was Republican and it decreased the same amount in the scenario where the incumbent was a Democrat.</p>
+<p>To evaluate expert predictions and their effects, we must look closely at each variable. When considering closeness, there is the possibility that voting in a swing state can influence turnout. Enos and Fowler claim in their 2016 paper [“Aggregate Effects of Large-Scale Campaigns on Voter Turnout”]<a href="https://www-cambridge-org.ezp-prod1.hul.harvard.edu/core/journals/political-science-research-and-methods/article/aggregate-effects-of-largescale-campaigns-on-voter-turnout/20C500B0DE62227873FD24CB3555F779#ref32" class="uri">https://www-cambridge-org.ezp-prod1.hul.harvard.edu/core/journals/political-science-research-and-methods/article/aggregate-effects-of-largescale-campaigns-on-voter-turnout/20C500B0DE62227873FD24CB3555F779#ref32</a> that a voter’s probability of casting a decisive vote is higher in battleground states, which could make voters feel that their vote has more weight and influence and be more likely to turn them out. On the other side of the coin, the probability of casting a decisive vote is extremely low, regardless of the closeness of a particular election. The best way to describe this pattern is “saying that closeness increases the probability of being pivotal is like saying that tall men are more likely than short men to bump their heads on the moon”, which can be reflected in the equation with a small effect from closeness — even if the election is close, the voter turnout only increases by 3.26%. Theoretically, the closer an election is, the larger the campaign is likely to become, which also increases voter turnout. But it is important to note here that neither of the cases showing the effect of closeness are influenced by ground campaigns, but can rather be categorized into non-campaign factors. Through placebo tests, Enos and Fowler showed that regardless of battleground status, voters in the same media market are similar in demographics, turnout in a non-presidential year, and underlying interest in politics or voting. Incumbency, while nearly identical in effect and significance to the Closeness variable, has been historically proven through multiple forecasting models to be important in turnout — [that incumbent parties have a decided edge over their challengers]<a href="https://www.brookings.edu/articles/forecasting-the-presidential-election-what-can-we-learn-from-the-models/" class="uri">https://www.brookings.edu/articles/forecasting-the-presidential-election-what-can-we-learn-from-the-models/</a>. However, much of these findings are based on the assumption of Presidential Incumbents, rather than district-level Congressional Incumbents. If the incumbent is a Democrat, fewer people come out to vote (looking at our data based on registered voter turnout rate) compared to if the incumbent is a Republican. Based on these results, we can assume that Democrat voters are more motivated to vote based on incumbency status, possibly because they feel more threatened by Republican representatives than Republican voters feel about Democratic incumbents. Whether an election is a midterm election is important as voters have been shown to feel more distant from midterms than presidential elections and have experienced tangible barriers to casting their ballot (Foley et al 2021). So, expert predictions do seem to be credible in predicting turnout, but cannot be relied on completely for sure results. Due to the complexity of the question, I think it would be more appropriate to ask “How well do expert predictions predict turnout? How can we improve upon their accuracy?”</p>
+</div>
+<div id="do-ad-spends-predict-turnout-what-can-we-infer-if-anything-about-the-relationship-between-the-air-war-and-voter-persuasionmobilization" class="section level2">
+<h2>Do ad spends predict turnout? What can we infer, if anything, about the relationship between the “air war” and voter persuasion/mobilization?</h2>
+<p>To answer this second question, I simply added the Estimated Cost Sum for advertisements to the second model with the Incumbent Democrat variable. I found that my previously inflated view of the air war and political campaigns was a misperception challenged by my findings and was very surprised to find this result. After merging last week’s WMP data with this week’s data on turnout at the district level to find out the effect of ad spends on voter turnout, I found that ad spends do not have much of an effect in magnitude and significance. Results-wise, there seemed to be little effect of Television/Media campaign ads on voter persuasion and mobilization. The equation is summarized below.</p>
+<pre><code>## 
+## Call:
+## lm(formula = voterTR ~ Close_E_D + Incumbent_D + MidtermE_D + 
+##     est_cost_sum + Open_seat, data = Final_2012_2018_DF)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.274367 -0.059509  0.008876  0.067799  0.188061 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   5.697e-01  1.127e-02  50.549  &lt; 2e-16 ***
+## Close_E_D     3.151e-02  1.649e-02   1.910   0.0571 .  
+## Incumbent_D  -8.436e-02  1.686e-02  -5.003 1.01e-06 ***
+## MidtermE_D   -7.626e-02  1.090e-02  -6.996 2.01e-11 ***
+## est_cost_sum  2.943e-09  1.377e-09   2.137   0.0335 *  
+## Open_seat    -3.177e-02  1.346e-02  -2.360   0.0190 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.09035 on 275 degrees of freedom
+##   (220 observations deleted due to missingness)
+## Multiple R-squared:  0.234,  Adjusted R-squared:  0.2201 
+## F-statistic:  16.8 on 5 and 275 DF,  p-value: 1.73e-14</code></pre>
+<p>Voter Turnout = 0.5697 + 0.032(Close Election Dummy) - 0.0844(Democrat Incumbent Dummy) - 0.0763(Midterm Election Dummy) + 0.00000000294(Estimated Sum Cost of Advertisements) - 0.0318(Open Seat Dummy)</p>
+<p>The model resulted in a lowered R-squared of 22%. The ad spends variable is significant at the 5% level, and for every $10 million spent on advertisements, the voter turnout rate increases by 2.943%. If the election is close (only significant at 10%, voter turnout increases by 3.15%, if the incumbent is a Democrat (significant at 0.1%), turnout decreases by 8.44%, if it is a midterm election (significant at 0.1%), the turnout decreases by 7.63%, and if the election is open seat (significant at 5%), the turnout rate would decrease by 3.177%. There is a hidden meaning here that actual voters who are easily motivated to turn out are probably Democrats. They turn out less when the incumbent is a Democrat, as shown by the model.</p>
+<p>The equation makes sense overall based on the reasons explained in the previous models. Competitive elections tend to raise the value of one vote in voters’ minds, Democrat Incumbents have been shown to turn out less people during midterms than Republican Incumbents, midterm elections are less popular than presidential ones, and open seat elections tend to be siloed to one candidate or party, so the results are almost decided before people cast their ballot. The ad spends are interesting because the result is minimal compared to what I had expected. Note that the effect of ad spends I am measuring is not even on Democrat or Republican vote share, it is on the general voter turnout itself. For context, federal ad spends hit a [record high of about $10 billion this election cycle]<a href="https://www.npr.org/2022/10/22/1130445425/midterm-elections-biden-dr-oz-tim-ryan-ads" class="uri">https://www.npr.org/2022/10/22/1130445425/midterm-elections-biden-dr-oz-tim-ryan-ads</a>, surpassing even the last presidential race, and this number does not even include the tens of millions being poured into digital platforms like Facebook
+Looking at these numbers, it can be easy to assume that they would have a strong effect on turning voters out. However, it is important to consider that 1) most of these funds have been allocated to gubernatorial or senatorial races and 2) it is a very rare occurrence for candidates at the district level (even in competitive elections) to spend [more than $5 million in funds]<a href="https://www.fec.gov/help-candidates-and-committees/dates-and-deadlines/2022-reporting-dates/2022-quarterly-filers/" class="uri">https://www.fec.gov/help-candidates-and-committees/dates-and-deadlines/2022-reporting-dates/2022-quarterly-filers/</a>, a portion of which go to advertisements. It can be shown that at the district level, where spending is limited and priorities in budget vary across congressional districts, advertisements did not have a massive impact on voter turnout during midterm elections.</p>
+<p>These findings, which undermine the “air war” on voter persuasion and mobilization can be supported by Kalla and Broockman’s 2018 article [“The Minimal Persuasive Effects of Campaign Contact in General Elections”]<a href="https://hollis.harvard.edu/primo-explore/fulldisplay?docid=TN_cdi_proquest_journals_1990829523&amp;context=PC&amp;vid=HVD2&amp;search_scope=everything&amp;tab=everything&amp;lang=en_US" class="uri">https://hollis.harvard.edu/primo-explore/fulldisplay?docid=TN_cdi_proquest_journals_1990829523&amp;context=PC&amp;vid=HVD2&amp;search_scope=everything&amp;tab=everything&amp;lang=en_US</a>, where they conducted a meta-analysis of field experiments of campaign contact that there is no apparent effect of ads on persuasion. Persuasive effects seem only to appear in 2 rare circumstances: 1) When candidates unpopular positions and candidates invest a large portion of money to identify the tiny cohort of persuadable voters. 2) When campaigns contact voters for early persuasion and measure immediate effects instead of accounting for staggered time. In a similar vein, Gerber et al’s paper [“How Large and Long-lasting Are the Persuasive Effects of Televised Campaign Ads? Results from a Randomized Field Experiment”]<a href="https://hollis.harvard.edu/primo-explore/fulldisplay?docid=TN_cdi_proquest_miscellaneous_881466543&amp;context=PC&amp;vid=HVD2&amp;search_scope=everything&amp;tab=everything&amp;lang=en_US" class="uri">https://hollis.harvard.edu/primo-explore/fulldisplay?docid=TN_cdi_proquest_miscellaneous_881466543&amp;context=PC&amp;vid=HVD2&amp;search_scope=everything&amp;tab=everything&amp;lang=en_US</a> came to the conclusion that political campaign ads had strong but very short-lived effects on voting preferences. Through my model and extensive research of academic sources, it is clear that the air war is exaggerated in the media and does not play a significant role in predicting voter turnout.</p>
+</div>
+<div id="updated-model" class="section level2">
+<h2>Updated Model</h2>
+<p>For my updated model this week, I took inspiration from some political and economics fundamentals-based models for the 2022 midterms, primarily [Professor Charles Tien and Professor Michael Lewis-Beck’s House model]<a href="https://centerforpolitics.org/crystalball/articles/forecasting-2022-using-the-fundamentals-the-structural-and-structure-x-models/" class="uri">https://centerforpolitics.org/crystalball/articles/forecasting-2022-using-the-fundamentals-the-structural-and-structure-x-models/</a>. I updated my model (2 for both Democrat and Republican vote share) to account for the macroeconomic variables I had success with last week along with two expert predictions of whether it was a Close Election or not, voters who were Lean/Likely/Strong Democrats or Republicans (based on a Likert scale with the average rating less than or equal to 3 yielding the LLS Democrat or Republican variable), and whether there was a Democrat or Republican President in office or not, to predict the Democratic Majority Vote Share. I also originally included voter turnout rate as an independent variable in my model, but it showed collinearity in combination with the other independent variables, so I ended up taking it out completely.</p>
+<pre><code>## 
+## Call:
+## lm(formula = DemVotesMajorPercent ~ Close_E_D + LLS_D + Pres_D + 
+##     GDP_Growth_Pct + US_CPI + US_Unemployment.Rate, data = Final_2012_2020_DF_ME_R1)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -14.2619  -1.9945  -0.0702   1.9113  18.6393 
+## 
+## Coefficients:
+##                       Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)          108.54640    6.32723  17.155  &lt; 2e-16 ***
+## Close_E_D             12.39792    0.38524  32.182  &lt; 2e-16 ***
+## LLS_D                  6.21832    0.35369  17.581  &lt; 2e-16 ***
+## Pres_D                -8.78989    1.02512  -8.575  &lt; 2e-16 ***
+## GDP_Growth_Pct         6.88061    0.70626   9.742  &lt; 2e-16 ***
+## US_CPI                -0.35633    0.03381 -10.540  &lt; 2e-16 ***
+## US_Unemployment.Rate   0.47755    0.08122   5.880 7.58e-09 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.373 on 494 degrees of freedom
+##   (32 observations deleted due to missingness)
+## Multiple R-squared:  0.6967, Adjusted R-squared:  0.693 
+## F-statistic: 189.2 on 6 and 494 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Democrat Vote Majority Percentage = 108.546 + 12.398(Close Election Dummy) + 6.218(Lean/Likely/Safe Democrat) - 8.790(Democrat President Dummy) + 6.881(GDP Growth Percentage) - 0.356(U.S. CPI Rate) + 0.478(U.S. Unemployment Rate)</p>
+<p>Here, there is an inclusion of economic variables of GDP Growth Percentage, Consumer Price Index, and the U.S. Unemployment Rate which are based on national index, not in district or state. This model is an improvement from last week as 69.3% of both the Democrat and Republican majority vote share are explained by the variables of the Close Election dummy variable, the Lean/Likely/Safety voters for Democrats, the President being either Democrat, and the economic variables, all of which were significant at the 0.1% level. The economic indicators are interesting because the increase in GDP Growth Percentage and Unemployment rate help increase Democrats’ vote share, while the CPI hurts the Democrats.</p>
+<pre><code>## 
+## Call:
+## lm(formula = RepVotesMajorPercent ~ Close_E_D + LLS_R + Pres_R + 
+##     GDP_Growth_Pct + US_CPI + US_Unemployment.Rate, data = Final_2012_2020_DF_ME_R1)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -18.6393  -1.9113   0.0702   1.9945  14.2619 
+## 
+## Coefficients:
+##                      Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)          -5.97483    5.88148  -1.016     0.31    
+## Close_E_D            -6.17960    0.39860 -15.503  &lt; 2e-16 ***
+## LLS_R                 6.21832    0.35369  17.581  &lt; 2e-16 ***
+## Pres_R               -8.78989    1.02512  -8.575  &lt; 2e-16 ***
+## GDP_Growth_Pct       -6.88061    0.70626  -9.742  &lt; 2e-16 ***
+## US_CPI                0.35633    0.03381  10.540  &lt; 2e-16 ***
+## US_Unemployment.Rate -0.47755    0.08122  -5.880 7.58e-09 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.373 on 494 degrees of freedom
+##   (32 observations deleted due to missingness)
+## Multiple R-squared:  0.6967, Adjusted R-squared:  0.693 
+## F-statistic: 189.2 on 6 and 494 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Republican Vote Majority Percentage = -5.875 - 6.180(Close Election Dummy) + 6.218(Lean/Likely/Safe Republican) - 8.790(Republican President Dummy) - 6.881(GDP Growth Percentage) + 0.356(U.S. CPI Rate) - 0.478(U.S. Unemployment Rate)</p>
+<p>I conducted the same model to predict the Republican Majority Vote Percentage, which resulted in the same R-squared of 69.3%. Compared to the strong positive effect that Close Elections had on Democratic vote share, the Republican vote share actually decreased as the competitiveness of an election increased. Both the LLS expert rating variable and President party affiliation dummy variable had the same effect on the Republican and Democrat Majority Vote Percentage, which makes sense with the assumption that people are thinking like a rational voters, regardless of party, and are equally affected by party loyalty. All the economic variables (GDP Growth Percentage, CPI Rate, and Unemployment Rate) had the polar opposite effects as the increase in GDP Growth Percentage and Unemployment rate hurt Republicans’ vote share, while an increase in CPI worked in their favor.</p>
+</div>
