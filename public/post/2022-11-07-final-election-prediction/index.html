@@ -232,7 +232,7 @@ Finally, RMSE (Square Root of Mean Squared Error) can be used to quantify how we
 ## F-statistic: 103.3 on 8 and 344 DF,  p-value: &lt; 2.2e-16</code></pre>
 <pre><code>## [1] 0.706106</code></pre>
 <pre><code>## [1] 6.621018</code></pre>
-<pre><code>## [1] 0.3950606</code></pre>
+<pre><code>## [1] 0.3971278</code></pre>
 <p><img src="http://example.org/post/2022-11-07-final-election-prediction/index_files/figure-html/unnamed-chunk-5-1.png" width="672" />
 Out-of-sample Model Validation:</p>
 <p>Another way to evaluate the predictive power of the model is to simulate out-of-sample prediction by withholding some observations before fitting. With a smaller sample by dropping 2018 observations from the dataset, I can estimate a new (modified) prediction model which will be used to predict the Y2018 (Democrat Vote Share in 2018 election). The newly modified model (lm_DVsh_US_no_2018) has the same set of independent variables but with different coefficients. Also, the R-square of this newly modified model is different from the original model with all observations including the sample from 2018 election. The R-squared value of the modified model is 0.7061. In the next steps, I predicted the values of the Y2018 (Democrat Vote Share in 2018 election) and compared the 135 predicted values with the true (observed) values of the 2018 election. The difference between each observed (true) value of Y2018 and predicted value of Y2018 is the difference between each observed (true) value of Y and predicted value of Y, using the out-of-sample prediction model. From the differences, I can see how well the modified model predicts the (true) value of Y2018 for the held-out observations X2018. RMSE of the out-of-sample model is 6.621018, higher than the all sample RMSE of 3.574183. This reveals that out-of-sample model works significantly worse than the in-sample model with all dataset. With a “Cross-validation.” I repeatedly evaluating performance against many randomly held-out “out-of-sample” datasets, for 1,000 times by dropping randomly selected 100 samples. The graph (Mean out-of-sample residual) above shows the distribution of evaluations in a histogram. The mean of the absolute value of errors from the 1,000 simulations is 0.3972904.</p>
@@ -288,7 +288,7 @@ Graphed Relationship between the Dependent and Independent Variables:</p>
         		<footer>
 			
 			<span>
-			&copy; <time datetime="2022-12-11 13:08:21.593483 -0500 EST m=&#43;0.231988763">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			&copy; <time datetime="2022-12-11 14:34:42.933171 -0500 EST m=&#43;0.222125093">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
 			</span>
 		</footer>
 
