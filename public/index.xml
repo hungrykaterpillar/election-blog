@@ -6,7 +6,16 @@
     <description>Recent content on My New Hugo Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 22 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 07 Dec 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>District Analysis</title>
+      <link>http://example.org/post/2022-12-07-district-analysis/</link>
+      <pubDate>Wed, 07 Dec 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/post/2022-12-07-district-analysis/</guid>
+      <description>1. Introduction The district I chose to focus on was my home district in Nevada – Congressional District 3. The results of the midterms in Nevada proved that it still continues to be a swing state. While Congresswoman Susie Lee has guarded her seat for 3 consecutive cycles at this point (including the 2022 midterm elections), this district is known to be notoriously tight, and I was interested in observing a diverse and competitive district.</description>
+    </item>
+    
     <item>
       <title>Post-Election Reflection</title>
       <link>http://example.org/post/2022-11-22-post-election-reflection/</link>
